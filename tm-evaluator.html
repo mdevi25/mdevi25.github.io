@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TM Evaluator Assistant — Madhu Devi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #FAF8F3;
+      --ink: #1A1714;
+      --muted: #7A746B;
+      --border: rgba(26,23,20,0.10);
+      --purple: #6B5FD4;
+      --purple-light: #EAE8FB;
+      --teal: #1A9B78;
+      --teal-light: #E0F5EE;
+      --amber: #C47B18;
+      --amber-light: #FDF0D5;
+      --coral: #C95A3A;
+      --coral-light: #FAEAE4;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      padding: 16px 0;
+      backdrop-filter: blur(12px);
+      background: rgba(250,248,243,0.88);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 780px; margin: 0 auto; padding: 0 28px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-back {
+      font-size: 13px; color: var(--muted); text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--ink); }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 17px; color: var(--ink); text-decoration: none;
+    }
+
+    /* ── LAYOUT ── */
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 28px 80px; }
+
+    /* ── HEADER ── */
+    .doc-header { padding: 56px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+
+    .doc-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .doc-tag {
+      font-size: 11px; font-weight: 500; padding: 3px 10px;
+      border-radius: 99px; letter-spacing: 0.04em;
+    }
+    .tag-purple { background: var(--purple-light); color: var(--purple); }
+    .tag-teal   { background: var(--teal-light);   color: var(--teal); }
+    .tag-amber  { background: var(--amber-light);  color: var(--amber); }
+    .tag-coral  { background: var(--coral-light);  color: var(--coral); }
+
+    .doc-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(32px, 5vw, 46px);
+      line-height: 1.1; letter-spacing: -0.02em;
+      color: var(--ink); margin-bottom: 16px;
+    }
+    .doc-subtitle {
+      font-size: 17px; color: var(--muted); font-weight: 300;
+      line-height: 1.6; max-width: 560px;
+    }
+    .doc-meta {
+      display: flex; gap: 24px; flex-wrap: wrap;
+      margin-top: 24px; padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .doc-meta-item { font-size: 12px; color: var(--muted); }
+    .doc-meta-item strong { color: var(--ink); font-weight: 500; }
+
+    /* ── STATUS BADGE ── */
+    .status-live {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--teal-light); color: var(--teal);
+      font-size: 12px; font-weight: 500; padding: 6px 14px;
+      border-radius: 99px; margin-bottom: 28px;
+    }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--teal);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* ── TOC ── */
+    .toc {
+      background: var(--purple-light);
+      border-radius: 12px; padding: 24px 28px;
+      margin-bottom: 48px;
+    }
+    .toc-title {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--purple);
+      margin-bottom: 14px;
+    }
+    .toc-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .toc-list li { display: flex; align-items: baseline; gap: 10px; }
+    .toc-num { font-size: 11px; color: var(--purple); opacity: 0.6; min-width: 18px; }
+    .toc-list a {
+      font-size: 14px; color: var(--ink); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .toc-list a:hover { color: var(--purple); }
+
+    /* ── PROSE ── */
+    .prose h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 26px; letter-spacing: -0.01em;
+      color: var(--ink); margin: 52px 0 16px;
+      padding-top: 52px; border-top: 1px solid var(--border);
+    }
+    .prose h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+    .prose h3 { font-size: 16px; font-weight: 500; color: var(--ink); margin: 32px 0 10px; }
+
+    .prose p { font-size: 16px; color: var(--ink); font-weight: 300; margin-bottom: 18px; }
+    .prose p strong { font-weight: 500; color: var(--ink); }
+    .prose p em { font-style: italic; color: var(--muted); }
+
+    .prose ul, .prose ol { padding-left: 20px; margin-bottom: 20px; }
+    .prose li { font-size: 15px; font-weight: 300; color: var(--ink); margin-bottom: 8px; line-height: 1.7; }
+    .prose li strong { font-weight: 500; }
+
+    .prose blockquote {
+      border-left: 3px solid var(--purple);
+      margin: 28px 0; padding: 16px 20px;
+      background: var(--purple-light);
+      border-radius: 0 8px 8px 0;
+    }
+    .prose blockquote p { font-size: 15px; color: var(--ink); margin: 0; font-weight: 400; font-style: italic; }
+
+    .prose pre {
+      background: #1A1714; border-radius: 8px;
+      padding: 20px 24px; margin: 24px 0; overflow-x: auto;
+    }
+    .prose pre code {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px; color: #E8E4DC; line-height: 1.9;
+    }
+    .prose code {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px; background: rgba(107,95,212,0.1);
+      color: var(--purple); padding: 2px 6px; border-radius: 4px;
+    }
+    .prose pre code { background: none; color: #E8E4DC; padding: 0; }
+
+    /* tables */
+    .prose table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
+    .prose th {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted);
+      padding: 10px 14px; border-bottom: 1px solid var(--border); text-align: left;
+    }
+    .prose td {
+      padding: 12px 14px; border-bottom: 1px solid var(--border);
+      font-weight: 300; color: var(--ink); vertical-align: top; line-height: 1.6;
+    }
+    .prose tr:last-child td { border-bottom: none; }
+    .prose tr:hover td { background: rgba(107,95,212,0.03); }
+
+    /* decision cards */
+    .decision-grid { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
+    .decision-card {
+      border-radius: 10px; padding: 20px 22px;
+      border: 1px solid transparent;
+    }
+    .decision-card.d-purple { background: var(--purple-light); border-color: rgba(107,95,212,0.15); }
+    .decision-card.d-teal   { background: var(--teal-light);   border-color: rgba(26,155,120,0.15); }
+    .decision-card.d-amber  { background: var(--amber-light);  border-color: rgba(196,123,24,0.15); }
+    .decision-card.d-coral  { background: var(--coral-light);  border-color: rgba(201,90,58,0.15); }
+    .decision-q {
+      font-size: 12px; font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+    .d-purple .decision-q { color: var(--purple); }
+    .d-teal   .decision-q { color: var(--teal); }
+    .d-amber  .decision-q { color: var(--amber); }
+    .d-coral  .decision-q { color: var(--coral); }
+    .decision-a { font-size: 14px; color: var(--ink); font-weight: 300; line-height: 1.6; }
+    .decision-a strong { font-weight: 500; }
+
+    /* cost table highlight */
+    .highlight-row td { font-weight: 500 !important; color: var(--teal) !important; }
+
+    /* takeaway cards */
+    .takeaways { display: flex; flex-direction: column; gap: 10px; margin: 20px 0; }
+    .takeaway {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 18px 20px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--cream);
+    }
+    .takeaway-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px; color: var(--purple); opacity: 0.4;
+      line-height: 1; flex-shrink: 0; min-width: 24px;
+    }
+    .takeaway-text { font-size: 14px; font-weight: 300; color: var(--ink); line-height: 1.7; }
+    .takeaway-text strong { font-weight: 500; }
+
+    /* ── FOOTER ── */
+    .doc-footer {
+      margin-top: 64px; padding: 28px 0;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .doc-footer-left { font-size: 13px; color: var(--muted); font-weight: 300; }
+    .doc-footer-links { display: flex; gap: 16px; }
+    .doc-footer-links a { font-size: 13px; color: var(--purple); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .doc-title { font-size: 28px; }
+      .doc-meta { gap: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-back" href="https://mdevi25.github.io/">← Back to site</a>
+    <a class="nav-logo" href="https://mdevi25.github.io/">Madhu Devi</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="doc-tags">
+      <span class="doc-tag tag-purple">AI Prototype</span>
+      <span class="doc-tag tag-teal">Prompt Engineering</span>
+      <span class="doc-tag tag-amber">Product Architecture</span>
+      <span class="doc-tag tag-coral">Concept to Deployment</span>
+    </div>
+    <div class="status-live">
+      <span class="status-dot"></span>
+      Live experiment — active with a Toastmasters club
+    </div>
+    <h1 class="doc-title">TM Evaluator<br>Assistant</h1>
+    <p class="doc-subtitle">An AI-powered speech evaluation companion for Toastmasters — built concept to working prototype in a single sprint, with a privacy-first design that keeps the human evaluator at the centre.</p>
+    <div class="doc-meta">
+      <div class="doc-meta-item"><strong>Role</strong><br>Product Concept, Architecture,<br>Prompt Engineering, Deployment</div>
+      <div class="doc-meta-item"><strong>Duration</strong><br>Single sprint</div>
+      <div class="doc-meta-item"><strong>Status</strong><br>Live experiment</div>
+      <div class="doc-meta-item"><strong>Monthly cost</strong><br>~$0.15–0.30</div>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <ul class="toc-list">
+      <li><span class="toc-num">01</span><a href="#problem">The problem</a></li>
+      <li><span class="toc-num">02</span><a href="#principle">The guiding principle</a></li>
+      <li><span class="toc-num">03</span><a href="#decisions">Key product decisions</a></li>
+      <li><span class="toc-num">04</span><a href="#architecture">Architecture decisions</a></li>
+      <li><span class="toc-num">05</span><a href="#dataflow">Data flow</a></li>
+      <li><span class="toc-num">06</span><a href="#pathways">Pathways knowledge integration</a></li>
+      <li><span class="toc-num">07</span><a href="#cost">Deployment and cost model</a></li>
+      <li><span class="toc-num">08</span><a href="#scaling">Scaling considerations</a></li>
+      <li><span class="toc-num">09</span><a href="#takeaways">Key takeaways</a></li>
+    </ul>
+  </div>
+
+  <!-- PROSE -->
+  <div class="prose">
+
+    <!-- PROBLEM -->
+    <h2 id="problem">The problem</h2>
+    <p>Toastmasters clubs rely on member-to-member evaluations to help speakers grow. Evaluators listen to a speech and deliver structured verbal feedback. In practice, especially in smaller clubs, evaluators often struggle with:</p>
+    <ul>
+      <li><strong>Recall</strong> — forgetting specific moments from the speech</li>
+      <li><strong>Generic feedback</strong> — saying "good job" without referencing what was actually good</li>
+      <li><strong>Misalignment</strong> — not knowing what the speaker's Pathways project was trying to achieve</li>
+      <li><strong>On-the-spot pressure</strong> — delivering an evaluation within minutes with limited preparation time</li>
+    </ul>
+    <blockquote><p>Can AI assist evaluators without replacing the human connection that makes Toastmasters valuable?</p></blockquote>
+
+    <!-- PRINCIPLE -->
+    <h2 id="principle">The guiding principle</h2>
+    <p><strong>AI should elevate the Toastmasters experience, not replace it.</strong></p>
+    <p>Toastmasters serves three core purposes — community, people connection, and practice. Any AI integration must preserve all three. The tool assists the evaluator. The evaluator still delivers the feedback. The speaker still receives it from a human who was in the room.</p>
+
+    <!-- DECISIONS -->
+    <h2 id="decisions">Key product decisions</h2>
+
+    <div class="decision-grid">
+      <div class="decision-card d-purple">
+        <div class="decision-q">Why an evaluator tool, not a speaker tool?</div>
+        <div class="decision-a">The initial instinct might be to build a tool that helps speakers practice. But that would pull activity <em>away</em> from the club meeting — the opposite of what a small club needs. By focusing on evaluators, the tool enhances the meeting experience itself. Better evaluations mean speakers get more value from attending, which improves retention.</div>
+      </div>
+      <div class="decision-card d-teal">
+        <div class="decision-q">Why live listening, not post-meeting analysis?</div>
+        <div class="decision-a">Evaluators deliver their feedback during the same meeting, usually within minutes of the speech. A tool that requires uploading a recording later misses the moment entirely. The tool needed to work in <strong>real-time</strong>, producing results fast enough for the evaluator to glance at before standing up.</div>
+      </div>
+      <div class="decision-card d-amber">
+        <div class="decision-q">Why no recording?</div>
+        <div class="decision-a">A non-negotiable design constraint driven by Toastmasters culture. Members speak in a safe, supportive environment. Introducing recordings — even temporary ones — changes the psychology of that space. The architecture was designed so <strong>audio is processed as a stream by the browser and never stored</strong>. Only the text transcript exists temporarily in memory, and it's cleared after analysis.</div>
+      </div>
+      <div class="decision-card d-coral">
+        <div class="decision-q">Why Pathways-aware evaluation?</div>
+        <div class="decision-a">Generic speech feedback is easy. What makes Toastmasters evaluation unique is that each speech has specific learning objectives tied to the speaker's Pathways project. An Ice Breaker speech should be evaluated differently than a Persuasive Speaking project. The tool <strong>dynamically adjusts its evaluation criteria</strong> based on which project the evaluator selects.</div>
+      </div>
+    </div>
+
+    <!-- ARCHITECTURE -->
+    <h2 id="architecture">Architecture decisions</h2>
+
+    <h3>Speech-to-text: Browser Web Speech API</h3>
+    <table>
+      <thead><tr><th>Option</th><th>Accuracy</th><th>Privacy</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Browser Web Speech API</strong></td><td>Moderate</td><td>Audio stays on-device*</td><td>Free</td></tr>
+        <tr><td>Cloud API (Whisper / Deepgram)</td><td>High</td><td>Audio sent to cloud</td><td>Per-minute</td></tr>
+        <tr><td>Local model (Whisper.cpp)</td><td>High</td><td>Fully on-device</td><td>Free</td></tr>
+      </tbody>
+    </table>
+    <p>Browser Web Speech API was chosen for the prototype phase. It requires zero setup, costs nothing, and keeps the barrier to adoption as low as possible. Accuracy is sufficient because the AI analysis layer is robust enough to work with imperfect transcripts — it looks for patterns and themes, not word-for-word precision.</p>
+
+    <h3>AI analysis: Claude Sonnet via Anthropic API</h3>
+    <p>The evaluation requires nuanced understanding of Toastmasters culture — constructive framing, CRC structure, encouragement-first language. Sonnet provided the best balance of quality, speed (evaluators need results in under 10 seconds), and cost (~$0.03 per evaluation).</p>
+
+    <h3>Prompt engineering as the core IP</h3>
+    <p>The most valuable component of the system is not the code — it's the system prompt. This prompt encodes:</p>
+    <ul>
+      <li>General Toastmasters evaluation criteria (structure, vocal variety, language, engagement, timing, purpose)</li>
+      <li>The CRC framework with specific output structure</li>
+      <li>Pathways project-specific objectives dynamically injected based on the evaluator's selection</li>
+      <li>Cultural guidelines — warm, encouraging, growth-oriented language</li>
+    </ul>
+    <p>The prompt produces structured JSON output that the frontend renders into scannable talking points.</p>
+
+    <h3>Security: serverless proxy for API key protection</h3>
+    <p>A browser-based app calling an AI API directly would expose the API key in network requests. A lightweight serverless function sits between the browser and the API — the browser sends the transcript to the function, the function adds the API key (stored as a server-side environment variable) and forwards the request. The API key never touches the browser.</p>
+
+    <h3>Access control: simple password gate</h3>
+    <p>Rather than building user authentication, the app uses a single club access code. This provides a sense of security and prevents casual visitors from using the API credits, without the complexity of an auth system — appropriate for an experiment with a small, trusted group.</p>
+
+    <!-- DATA FLOW -->
+    <h2 id="dataflow">Data flow</h2>
+    <pre><code>Speaker's voice
+    ↓
+Phone microphone → Browser speech recognition (on-device)
+    ↓
+Text transcript (browser memory only)
+    ↓
+Evaluator taps "Done — Analyze"
+    ↓
+Transcript → Serverless proxy → AI API (encrypted)
+    ↓
+Structured evaluation (JSON) → Rendered as CRC talking points
+    ↓
+Transcript cleared from memory
+    ↓
+Tab closed → Everything gone</code></pre>
+    <p><strong>Key property:</strong> No data persists anywhere after the session. No database, no file storage, no cookies, no analytics tracking of speech content.</p>
+
+    <!-- PATHWAYS -->
+    <h2 id="pathways">Pathways knowledge integration</h2>
+    <p>The app contains a structured knowledge base of all six current Toastmasters Pathways with their levels and required projects. When an evaluator selects a pathway, level, and project, the system prompt is dynamically constructed to include the specific objectives for that project.</p>
+    <p>This means the same underlying AI produces different evaluation criteria for different speech types — an Ice Breaker evaluation focuses on self-introduction and personal storytelling, while a Persuasive Speaking evaluation focuses on evidence quality, emotional appeal, and call to action.</p>
+    <p>The knowledge base is structured as data (not hardcoded logic), making it straightforward to update when Toastmasters modifies their program.</p>
+
+    <!-- COST -->
+    <h2 id="cost">Deployment and cost model</h2>
+    <table>
+      <thead><tr><th>Component</th><th>Service</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr><td>Hosting</td><td>Netlify (free tier)</td><td>$0</td></tr>
+        <tr><td>Source control</td><td>GitHub (private repo)</td><td>$0</td></tr>
+        <tr><td>Speech-to-text</td><td>Browser Web Speech API</td><td>$0</td></tr>
+        <tr><td>AI evaluation</td><td>Anthropic API (Claude Sonnet)</td><td>~$0.03 / evaluation</td></tr>
+        <tr class="highlight-row"><td>Total for a small club</td><td></td><td>~$0.15–0.30 / month</td></tr>
+      </tbody>
+    </table>
+    <p>A $5 API credit sustains a small club for approximately 1.5–2 years. Usage tracking is handled through the hosting platform's built-in function invocation logs — each log entry represents one evaluation and one API call. No custom analytics infrastructure was needed.</p>
+
+    <!-- SCALING -->
+    <h2 id="scaling">Scaling considerations</h2>
+    <table>
+      <thead><tr><th>Scale</th><th>Evaluations / month</th><th>Est. cost</th></tr></thead>
+      <tbody>
+        <tr><td>1 club (experiment)</td><td>4–8</td><td>$0.15–0.30</td></tr>
+        <tr><td>4–5 clubs (Area)</td><td>20–40</td><td>$0.60–1.20</td></tr>
+        <tr><td>20+ clubs (Division)</td><td>80–160</td><td>$2.50–5.00</td></tr>
+        <tr><td>District-wide (200+ clubs)</td><td>800+</td><td>$25–50</td></tr>
+      </tbody>
+    </table>
+    <p>The serverless architecture scales automatically — there's no server to upgrade. The cost scales linearly with usage. The constraint at scale is organizational (who manages the tool, who pays) rather than technical.</p>
+
+    <!-- TAKEAWAYS -->
+    <h2 id="takeaways">Key takeaways</h2>
+    <div class="takeaways">
+      <div class="takeaway">
+        <div class="takeaway-num">1</div>
+        <div class="takeaway-text"><strong>The prompt is the product.</strong> In an AI-assisted tool, the most valuable intellectual property isn't the code — it's the prompt engineering that encodes domain expertise into the AI's behavior.</div>
+      </div>
+      <div class="takeaway">
+        <div class="takeaway-num">2</div>
+        <div class="takeaway-text"><strong>Privacy constraints drove better architecture.</strong> The "no recording" requirement forced a real-time, ephemeral design that is simpler, cheaper, and more trustworthy than alternatives that store data.</div>
+      </div>
+      <div class="takeaway">
+        <div class="takeaway-num">3</div>
+        <div class="takeaway-text"><strong>AI works best as a companion, not a replacement.</strong> The tool enhances human capability without removing the human from the loop. The evaluator remains the evaluator — the AI is a better notepad.</div>
+      </div>
+      <div class="takeaway">
+        <div class="takeaway-num">4</div>
+        <div class="takeaway-text"><strong>Domain knowledge matters more than model sophistication.</strong> A well-crafted prompt with the right Toastmasters context on a standard model outperforms a generic evaluation from a more powerful model without that context.</div>
+      </div>
+      <div class="takeaway">
+        <div class="takeaway-num">5</div>
+        <div class="takeaway-text"><strong>Start with the smallest viable experiment.</strong> One club, two evaluators, twice a month. The architecture supports scaling, but the learning comes from real-world usage at the smallest scale first.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    <div class="doc-footer-left">Madhu Devi · TM Evaluator Assistant · Live experiment</div>
+    <div class="doc-footer-links">
+      <a href="https://www.linkedin.com/in/madhudevi/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/mdevi25" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://mdevi25.github.io/">Back to site</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
