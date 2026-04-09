@@ -264,6 +264,34 @@
     .contact-link:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.35); }
     .contact-link svg { width: 15px; height: 15px; flex-shrink: 0; }
 
+    /* ── PROJECTS ── */
+    .projects { display: flex; flex-direction: column; gap: 12px; }
+    .project-card {
+      border-radius: var(--border-radius-lg);
+      border: 1px solid var(--border);
+      background: var(--cream);
+      padding: 22px 24px;
+      display: flex; justify-content: space-between; align-items: center; gap: 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .project-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .project-left { flex: 1; }
+    .project-name { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+    .project-desc { font-size: 13px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+    .project-badges { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+    .badge { font-size: 11px; padding: 3px 9px; border-radius: 4px; font-weight: 400; }
+    .badge-purple { background: var(--purple-light); color: var(--purple); }
+    .badge-teal   { background: var(--teal-light);   color: var(--teal); }
+    .badge-amber  { background: var(--amber-light);  color: var(--amber); }
+    .badge-blue   { background: #E6F1FB; color: #185FA5; }
+    .project-link {
+      font-size: 12px; font-weight: 500; color: var(--purple);
+      text-decoration: none; border: 1px solid rgba(107,95,212,0.3);
+      border-radius: 6px; padding: 7px 16px; white-space: nowrap; flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .project-link:hover { background: var(--purple-light); }
+
     /* ── WRITING ── */
     .writing-grid { display: flex; flex-direction: column; gap: 14px; }
     .writing-card {
@@ -386,11 +414,22 @@
 <div class="wrap">
   <section id="projects">
     <p class="section-label">Projects</p>
-    <div class="projects-note">
-      <p>
-        <strong>Work in progress.</strong> I'm currently building out a set of portfolio projects in Data Analytics and AI Product Management — expect dashboards, ML experiments, and product case studies to appear here soon.
-      </p>
-      <span class="coming-tag">Coming soon</span>
+    <div class="projects">
+
+      <div class="project-card">
+        <div class="project-left">
+          <div class="project-name">AI Data Operations — A PM's Field Guide</div>
+          <div class="project-desc">A practical knowledge base on managing annotation pipelines, RLHF workflows, and quality assurance for AI model development. Covers the full ADLC lifecycle, IRR arbitration, Red Teaming, and hands-on Labelbox practice.</div>
+          <div class="project-badges">
+            <span class="badge badge-purple">AI Product Management</span>
+            <span class="badge badge-teal">Data Operations</span>
+            <span class="badge badge-amber">RLHF</span>
+            <span class="badge badge-blue">Labelbox</span>
+          </div>
+        </div>
+        <a class="project-link" href="knowledge-base.html">Read →</a>
+      </div>
+
     </div>
   </section>
 </div>

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Data Operations — Madhu Devi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #FAF8F3;
+      --ink: #1A1714;
+      --muted: #7A746B;
+      --border: rgba(26,23,20,0.10);
+      --purple: #6B5FD4;
+      --purple-light: #EAE8FB;
+      --teal: #1A9B78;
+      --teal-light: #E0F5EE;
+      --amber: #C47B18;
+      --amber-light: #FDF0D5;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      padding: 16px 0;
+      backdrop-filter: blur(12px);
+      background: rgba(250,248,243,0.88);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 780px; margin: 0 auto; padding: 0 28px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-back {
+      font-size: 13px; color: var(--muted); text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--ink); }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 17px; color: var(--ink); text-decoration: none;
+    }
+
+    /* ── LAYOUT ── */
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 28px 80px; }
+
+    /* ── HEADER ── */
+    .doc-header { padding: 56px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+
+    .doc-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .doc-tag {
+      font-size: 11px; font-weight: 500; padding: 3px 10px;
+      border-radius: 99px; letter-spacing: 0.04em;
+    }
+    .tag-purple { background: var(--purple-light); color: var(--purple); }
+    .tag-teal   { background: var(--teal-light);   color: var(--teal); }
+    .tag-amber  { background: var(--amber-light);  color: var(--amber); }
+
+    .doc-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(32px, 5vw, 46px);
+      line-height: 1.1; letter-spacing: -0.02em;
+      color: var(--ink); margin-bottom: 16px;
+    }
+    .doc-subtitle {
+      font-size: 17px; color: var(--muted); font-weight: 300;
+      line-height: 1.6; max-width: 560px;
+    }
+    .doc-meta {
+      display: flex; gap: 24px; flex-wrap: wrap;
+      margin-top: 24px; padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .doc-meta-item { font-size: 12px; color: var(--muted); }
+    .doc-meta-item strong { color: var(--ink); font-weight: 500; }
+
+    /* ── TOC ── */
+    .toc {
+      background: var(--purple-light);
+      border-radius: 12px; padding: 24px 28px;
+      margin-bottom: 48px;
+    }
+    .toc-title {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--purple);
+      margin-bottom: 14px;
+    }
+    .toc-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .toc-list li { display: flex; align-items: baseline; gap: 10px; }
+    .toc-num { font-size: 11px; color: var(--purple); opacity: 0.6; min-width: 18px; }
+    .toc-list a {
+      font-size: 14px; color: var(--ink); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .toc-list a:hover { color: var(--purple); }
+
+    /* ── PROSE ── */
+    .prose h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 26px; letter-spacing: -0.01em;
+      color: var(--ink); margin: 52px 0 16px;
+      padding-top: 52px; border-top: 1px solid var(--border);
+    }
+    .prose h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+
+    .prose h3 {
+      font-size: 16px; font-weight: 500; color: var(--ink);
+      margin: 32px 0 10px;
+    }
+
+    .prose p { font-size: 16px; color: var(--ink); font-weight: 300; margin-bottom: 18px; }
+    .prose p strong { font-weight: 500; color: var(--ink); }
+    .prose p em { font-style: italic; color: var(--muted); }
+
+    .prose ul, .prose ol {
+      padding-left: 20px; margin-bottom: 20px;
+    }
+    .prose li { font-size: 15px; font-weight: 300; color: var(--ink); margin-bottom: 8px; line-height: 1.7; }
+    .prose li strong { font-weight: 500; }
+
+    /* callout block */
+    .prose blockquote {
+      border-left: 3px solid var(--purple);
+      margin: 28px 0;
+      padding: 16px 20px;
+      background: var(--purple-light);
+      border-radius: 0 8px 8px 0;
+    }
+    .prose blockquote p {
+      font-size: 15px; color: var(--ink); margin: 0; font-weight: 400;
+      font-style: italic;
+    }
+
+    /* code blocks */
+    .prose pre {
+      background: #1A1714; border-radius: 8px;
+      padding: 20px 24px; margin: 24px 0;
+      overflow-x: auto;
+    }
+    .prose pre code {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px; color: #E8E4DC; line-height: 1.7;
+    }
+    .prose code {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px; background: rgba(107,95,212,0.1);
+      color: var(--purple); padding: 2px 6px; border-radius: 4px;
+    }
+    .prose pre code { background: none; color: #E8E4DC; padding: 0; }
+
+    /* tables */
+    .prose table {
+      width: 100%; border-collapse: collapse;
+      margin: 24px 0; font-size: 14px;
+    }
+    .prose th {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted);
+      padding: 10px 14px; border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    .prose td {
+      padding: 12px 14px; border-bottom: 1px solid var(--border);
+      font-weight: 300; color: var(--ink); vertical-align: top;
+      line-height: 1.6;
+    }
+    .prose tr:last-child td { border-bottom: none; }
+    .prose tr:hover td { background: rgba(107,95,212,0.03); }
+
+    /* pillar cards */
+    .pillar-card {
+      border-radius: 10px; padding: 22px 24px;
+      margin: 20px 0; border: 1px solid transparent;
+    }
+    .pillar-card.p1 { background: var(--purple-light); border-color: rgba(107,95,212,0.15); }
+    .pillar-card.p2 { background: var(--teal-light);   border-color: rgba(26,155,120,0.15); }
+    .pillar-card.p3 { background: var(--amber-light);  border-color: rgba(196,123,24,0.15); }
+    .pillar-label {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+    .p1 .pillar-label { color: var(--purple); }
+    .p2 .pillar-label { color: var(--teal); }
+    .p3 .pillar-label { color: var(--amber); }
+    .pillar-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+    .pillar-desc  { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.6; }
+
+    /* metric pills */
+    .metrics { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
+    .metric {
+      padding: 10px 16px; border-radius: 8px;
+      background: var(--cream); border: 1px solid var(--border);
+    }
+    .metric-label { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .metric-value { font-size: 14px; font-weight: 500; color: var(--ink); margin-top: 2px; }
+
+    /* ── FOOTER ── */
+    .doc-footer {
+      margin-top: 64px; padding: 28px 0;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .doc-footer-left { font-size: 13px; color: var(--muted); font-weight: 300; }
+    .doc-footer-links { display: flex; gap: 16px; }
+    .doc-footer-links a { font-size: 13px; color: var(--purple); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .doc-title { font-size: 28px; }
+      .doc-meta { gap: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-back" href="https://mdevi25.github.io/">← Back to site</a>
+    <a class="nav-logo" href="https://mdevi25.github.io/">Madhu Devi</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="doc-tags">
+      <span class="doc-tag tag-purple">AI Product Management</span>
+      <span class="doc-tag tag-teal">Data Operations</span>
+      <span class="doc-tag tag-amber">RLHF</span>
+    </div>
+    <h1 class="doc-title">AI Data Operations —<br>A PM's Field Guide</h1>
+    <p class="doc-subtitle">A practical knowledge base on managing annotation pipelines, RLHF workflows, and quality assurance for frontier AI model development.</p>
+    <div class="doc-meta">
+      <div class="doc-meta-item"><strong>Author</strong><br>Madhu Devi</div>
+      <div class="doc-meta-item"><strong>Last updated</strong><br>April 2026</div>
+      <div class="doc-meta-item"><strong>Status</strong><br>Living document</div>
+      <div class="doc-meta-item"><strong>Read time</strong><br>~15 min</div>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <ul class="toc-list">
+      <li><span class="toc-num">01</span><a href="#mental-model">Mental model</a></li>
+      <li><span class="toc-num">02</span><a href="#lifecycle">The ADLC lifecycle</a></li>
+      <li><span class="toc-num">03</span><a href="#pillars">Three operating pillars</a></li>
+      <li><span class="toc-num">04</span><a href="#irr">IRR and Arbitration</a></li>
+      <li><span class="toc-num">05</span><a href="#guidelines">Annotation guidelines</a></li>
+      <li><span class="toc-num">06</span><a href="#batch">Batch scoping and SLA</a></li>
+      <li><span class="toc-num">07</span><a href="#rlhf">RLHF — where my work fits</a></li>
+      <li><span class="toc-num">08</span><a href="#redteam">Red Teaming</a></li>
+      <li><span class="toc-num">09</span><a href="#agile">Agile in Data Ops</a></li>
+      <li><span class="toc-num">10</span><a href="#practice">Hands-on practice</a></li>
+      <li><span class="toc-num">11</span><a href="#transfer">Where this knowledge transfers</a></li>
+    </ul>
+  </div>
+
+  <!-- PROSE -->
+  <div class="prose">
+
+    <!-- WHY -->
+    <p>In early 2026 I spent several weeks doing deep research into AI Data Operations — specifically the role a Technical Product Manager plays in managing annotation pipelines, RLHF workflows, and quality assurance for frontier AI model development. I did hands-on practice with Labelbox, built annotation guidelines from scratch, and worked through the full operational lifecycle from data ingestion to client delivery.</p>
+    <p>This document captures what I learned. I am sharing it publicly because I believe the PM community needs more practical, operational knowledge about how AI training data actually gets made — not just the theory, but the day-to-day mechanics of running a production annotation operation. Everything here is my own synthesis.</p>
+
+    <!-- MENTAL MODEL -->
+    <h2 id="mental-model">Mental model: production operations, not project delivery</h2>
+    <p>The most important thing I learned is that AI Data Operations is not a project management role in the traditional sense. It is a <strong>production operations management</strong> role.</p>
+    <blockquote><p>In a traditional PM role I asked: when will it be done? In AI Data Ops I learned to ask: how well is it running right now?</p></blockquote>
+    <p>The best analogy I found was a <strong>pedal pub</strong>. The PM is the main pedaller — setting pace, keeping the vehicle moving, steering through obstacles. Annotators are the other riders contributing power. The PM Data Ops Lead is the driver navigating the route. Nobody gets off while it is moving. Everything must stay in sync or the whole pub wobbles.</p>
+    <p>The RLHF layer adds a dimension that makes this even more precise — as you pedal, the road itself changes underneath you, because your annotation work feeds back into the model and shifts what the next batch of data looks like. You are simultaneously keeping the vehicle moving and recalibrating your route in real time.</p>
+
+    <!-- LIFECYCLE -->
+    <h2 id="lifecycle">The lifecycle: ADLC vs SDLC</h2>
+    <p>Traditional software delivery runs on an <strong>SDLC</strong> — a linear cycle with a defined end. Build, ship, done.</p>
+    <p>AI Data Operations runs on what I call an <strong>ADLC</strong> — Annotation Data Lifecycle. It is a continuous production loop with no finish line:</p>
+    <pre><code>Ingest → Annotate → QA Review → Deliver → Report → Ingest again</code></pre>
+    <p>The batch is the unit of work. Each batch that clears the quality threshold ships to the client. The next batch immediately begins. The flywheel never fully stops — it transitions.</p>
+    <p><strong>Key ADLC metrics</strong> (replacing velocity and burn-down):</p>
+    <div class="metrics">
+      <div class="metric"><div class="metric-label">TPT</div><div class="metric-value">Time Per Task</div></div>
+      <div class="metric"><div class="metric-label">IRR</div><div class="metric-value">Inter-Rater Reliability</div></div>
+      <div class="metric"><div class="metric-label">Queue depth</div><div class="metric-value">WIP inventory</div></div>
+      <div class="metric"><div class="metric-label">Throughput</div><div class="metric-value">Images / day</div></div>
+      <div class="metric"><div class="metric-label">Defect rate</div><div class="metric-value">Distribution by type</div></div>
+    </div>
+
+    <!-- PILLARS -->
+    <h2 id="pillars">The three operating pillars</h2>
+    <p>Every PM Data Ops role organizes around three simultaneous responsibilities — three engines running in parallel, not three phases running in sequence.</p>
+
+    <div class="pillar-card p1">
+      <div class="pillar-label">Pillar 1</div>
+      <div class="pillar-title">The Data Engine — flywheel operations</div>
+      <div class="pillar-desc">The production throughput problem. Keep data moving from client bucket through annotation to delivery without stalling. Daily queue audits, batch validation, KPI dashboards, tooling optimization.</div>
+    </div>
+    <div class="pillar-card p2">
+      <div class="pillar-label">Pillar 2</div>
+      <div class="pillar-title">Ground Truth — quality operations</div>
+      <div class="pillar-desc">The quality yield management problem. IRR score is your yield rate. Covers IRR monitoring, arbitration, guidelines ownership, RAID log, and knowledge base maintenance.</div>
+    </div>
+    <div class="pillar-card p3">
+      <div class="pillar-label">Pillar 3</div>
+      <div class="pillar-title">Client Partnership — delivery assurance</div>
+      <div class="pillar-desc">The trust and transparency problem. Daily TPM syncs, proactive escalation, pre-sales support, POC execution. The "no surprises" culture is the product you are selling.</div>
+    </div>
+
+    <!-- IRR -->
+    <h2 id="irr">IRR and Arbitration — cause and effect</h2>
+    <p>IRR and Arbitration are not two separate processes. They are cause and effect. <strong>IRR</strong> tells you the temperature of your operation. <strong>Arbitration</strong> finds the cause and produces the fix.</p>
+    <pre><code>IRR % = Agreements ÷ Total reviewed × 100</code></pre>
+    <p>Thresholds I use as reference:</p>
+    <ul>
+      <li><strong>90%+</strong> — healthy, guidelines are working</li>
+      <li><strong>80–89%</strong> — warning, investigate root cause</li>
+      <li><strong>Below 80%</strong> — stop, fix before continuing</li>
+    </ul>
+
+    <h3>The three root causes of every disagreement</h3>
+    <p>Every disagreement in annotation traces to one of exactly three causes:</p>
+    <ol>
+      <li><strong>Guideline gap</strong> — the guidelines did not give both reviewers enough to reach the same conclusion independently. Fix: update the guidelines. This is the PM's fault, not the annotators'.</li>
+      <li><strong>Hard image</strong> — the guidelines are clear but this specific image is genuinely ambiguous. Fix: make a final ruling, log it in the edge case section. Guideline does not change.</li>
+      <li><strong>Annotator error</strong> — one reviewer clearly misapplied an unambiguous guideline. Fix: annotator calibration conversation, not a guidelines update.</li>
+    </ol>
+    <blockquote><p>Diagnosing which of the three applies is the most important judgment call in quality operations. Getting it wrong produces the wrong fix and the same problem recurs.</p></blockquote>
+
+    <!-- GUIDELINES -->
+    <h2 id="guidelines">Annotation guidelines — the Managing Editor role</h2>
+    <p>The annotation guidelines document is the source of truth for everything downstream. Structure I use for every defect class:</p>
+    <ol>
+      <li>One-sentence definition</li>
+      <li>What qualifies — 6 to 8 specific examples</li>
+      <li>What does NOT qualify — 6 to 8 specific examples with brief rationale</li>
+      <li>Nested attributes — each attribute with all options explicitly defined</li>
+      <li>Dataset-specific edge case rulings</li>
+      <li>Good vs bad annotator note examples</li>
+    </ol>
+    <p>The negative examples in section 3 are the most important part. This is where annotator disagreement lives — not in ambiguity about what a defect is, but in uncertainty about what it is not.</p>
+
+    <h3>The version control discipline</h3>
+    <p>I separate <strong>speed</strong> from <strong>detail</strong> by operating in two modes:</p>
+    <ul>
+      <li><strong>During live queue:</strong> one-sentence ruling in a decision log. Ship it to annotators in under 5 minutes. Keep the flywheel moving.</li>
+      <li><strong>End of day:</strong> transfer all decision log entries into the proper guidelines document with full context. Polish then, not during.</li>
+    </ul>
+
+    <!-- BATCH -->
+    <h2 id="batch">Batch scoping and SLA — the formula</h2>
+    <p>Batch size is not a gut call. It is a calculation with six inputs:</p>
+    <table>
+      <thead><tr><th>Input</th><th>What it tells you</th></tr></thead>
+      <tbody>
+        <tr><td><strong>TPT</strong></td><td>How long per image — measure from pilot batch, never assume</td></tr>
+        <tr><td><strong>Annotator capacity</strong></td><td>Productive hours per day — 4 to 5, not 8</td></tr>
+        <tr><td><strong>QA overhead</strong></td><td>IRR review adds 15 to 20% to total annotation time</td></tr>
+        <tr><td><strong>Image complexity</strong></td><td>Multi-defect images multiply TPT — audit before scoping</td></tr>
+        <tr><td><strong>Client urgency</strong></td><td>Their model training schedule is your ceiling</td></tr>
+        <tr><td><strong>IRR threshold</strong></td><td>Higher target = smaller safer batches</td></tr>
+      </tbody>
+    </table>
+    <pre><code>(Annotators × Productive hours × 60 min)
+÷ (TPT + QA overhead per image)
+× 80% buffer
+= Committed batch size per SLA window</code></pre>
+    <p>The 80% buffer absorbs unexpected blockers. If you never use it, you deliver early. If something goes wrong, it saves your SLA.</p>
+
+    <!-- RLHF -->
+    <h2 id="rlhf">RLHF — where my team's work fits</h2>
+    <p>RLHF (Reinforcement Learning from Human Feedback) connects annotation work to model improvement. The three operational entry points:</p>
+    <ul>
+      <li><strong>Stage 1 — Supervised Fine-Tuning (SFT):</strong> Annotators write or select ideal responses. Model learns what good looks like. My guidelines document governs quality here.</li>
+      <li><strong>Stage 2 — Reward Model Training:</strong> Raters compare two model outputs and select which is better. The primacy effect (order bias) is a structural risk — task design must randomize presentation order.</li>
+      <li><strong>Stage 3 — PPO Policy Optimization:</strong> Mostly automated. My team validates outputs after optimization and flags new failure modes, feeding back into the Red Team prompt library.</li>
+    </ul>
+    <blockquote><p>The RLHF loop means the flywheel never fully stops. My labeled data trains the model. The improved model generates harder images. Harder images come back to me as the next batch.</p></blockquote>
+
+    <!-- RED TEAM -->
+    <h2 id="redteam">Red Teaming — what the PM owns</h2>
+    <p>Red Teaming is structured adversarial testing — deliberately trying to make the model fail before real users do. Two categories:</p>
+    <ul>
+      <li><strong>Jailbreak datasets</strong> — prompts engineered to bypass safety guidelines</li>
+      <li><strong>Safety datasets</strong> — prompts probing bias, hallucination, tone failures, factual errors, and behavioral inconsistency</li>
+    </ul>
+    <p>As PM I own the library, not the attacks: version control (every prompt has an ID, creation date, model version), tagging by type/category/severity/status, currency (retiring stale prompts), and regression readiness. The prompt library is institutional memory.</p>
+
+    <!-- AGILE -->
+    <h2 id="agile">Agile in Data Ops — the right framework for each layer</h2>
+    <p>Agile operates at different layers with different purposes:</p>
+    <ul>
+      <li><strong>Daily production queue: Kanban, not Scrum.</strong> Work arrives unpredictably, guidelines change in real time, and there is no defined end state. Sprint time-boxing breaks all three of these realities simultaneously.</li>
+      <li><strong>Batch delivery cycle: Agile ceremonies adapted.</strong> Sprint planning → batch scoping. Daily standup → queue pulse check. Sprint review → batch delivery review. Retrospective → after-action review.</li>
+      <li><strong>Tooling and process improvement: full Scrum.</strong> Defined scope, clear done state, prioritized backlog. Short sprints — one week maximum.</li>
+    </ul>
+    <blockquote><p>The decision rule: Does this work have a defined end state and predictable scope? Sprint. Does it flow continuously with unpredictable arrival and real-time change? Kanban.</p></blockquote>
+
+    <!-- PRACTICE -->
+    <h2 id="practice">Hands-on practice: what I built</h2>
+    <p>To ground this research in operational reality I ran a self-directed simulation using Labelbox free tier and AI-generated images from Canva as my dataset:</p>
+    <ul>
+      <li>Designed a five-class defect ontology (SPELL_ERROR, FONT_INCONSISTENCY, DATE_NUMBER_ERROR, MISALIGNED_TEXT, LAYOUT_DEFECT) plus a CLEAN class</li>
+      <li>Wrote a complete annotation guidelines document with negative examples, nested attribute definitions, and dataset-specific edge case rulings</li>
+      <li>Configured the ontology in Labelbox including nested attributes, multi-select checklists, and a global annotator notes field</li>
+      <li>Ran a 5-image pilot batch to validate tool configuration</li>
+      <li>Used a vision-capable AI as an independent second reviewer to calculate IRR without memory bias</li>
+      <li>Built a RAID log, decision log, and TPT tracking spreadsheet</li>
+      <li>Produced a mock client status report in "no surprises" format</li>
+    </ul>
+
+    <h3>Key documents produced</h3>
+    <table>
+      <thead><tr><th>Document</th><th>Purpose</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Annotation Guidelines v1.0</td><td>Six-class defect taxonomy with full rules</td><td>Complete</td></tr>
+        <tr><td>Ontology attribute map</td><td>Translation layer from guidelines to Labelbox config</td><td>Complete</td></tr>
+        <tr><td>TPT tracking template</td><td>Per-image timing, confidence, edge case log</td><td>Complete</td></tr>
+        <tr><td>RAID log template</td><td>Risks, Assumptions, Issues, Dependencies</td><td>Complete</td></tr>
+        <tr><td>Batch scoping calculator</td><td>Six-input formula with 80% buffer</td><td>Complete</td></tr>
+        <tr><td>Daily ops report template</td><td>No-surprises client status format</td><td>Complete</td></tr>
+      </tbody>
+    </table>
+
+    <!-- TRANSFER -->
+    <h2 id="transfer">Where this knowledge transfers</h2>
+    <p>The operational disciplines here are not specific to annotation projects. They transfer to any role where work arrives continuously rather than in planned sprints, quality must be measured against a defined standard in real time, guidelines need to evolve while production continues, and multiple stakeholders need transparency into an operation they cannot directly observe.</p>
+    <p>These conditions describe a large portion of AI product management work as the field matures — not just annotation, but model evaluation, red teaming operations, data governance, and AI quality assurance broadly.</p>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    <div class="doc-footer-left">Madhu Devi · April 2026 · Living document</div>
+    <div class="doc-footer-links">
+      <a href="https://www.linkedin.com/in/madhudevi/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/mdevi25" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://mdevi25.github.io/">Back to site</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
