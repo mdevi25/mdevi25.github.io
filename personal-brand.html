@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal Brand — Madhu Devi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #FAF8F3;
+      --ink: #1A1714;
+      --muted: #7A746B;
+      --border: rgba(26,23,20,0.10);
+      --purple: #6B5FD4;
+      --purple-light: #EAE8FB;
+      --teal: #1A9B78;
+      --teal-light: #E0F5EE;
+      --amber: #C47B18;
+      --amber-light: #FDF0D5;
+      --coral: #C95A3A;
+      --coral-light: #FAEAE4;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      padding: 16px 0;
+      backdrop-filter: blur(12px);
+      background: rgba(250,248,243,0.88);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 780px; margin: 0 auto; padding: 0 28px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-back {
+      font-size: 13px; color: var(--muted); text-decoration: none;
+      display: flex; align-items: center; gap: 6px; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--ink); }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 17px; color: var(--ink); text-decoration: none;
+    }
+
+    /* ── LAYOUT ── */
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 28px 80px; }
+
+    /* ── HEADER ── */
+    .doc-header { padding: 56px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+    .doc-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .doc-tag {
+      font-size: 11px; font-weight: 500; padding: 3px 10px;
+      border-radius: 99px; letter-spacing: 0.04em;
+    }
+    .tag-purple { background: var(--purple-light); color: var(--purple); }
+    .tag-teal   { background: var(--teal-light);   color: var(--teal); }
+    .tag-amber  { background: var(--amber-light);  color: var(--amber); }
+    .tag-coral  { background: var(--coral-light);  color: var(--coral); }
+
+    .doc-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(32px, 5vw, 46px);
+      line-height: 1.1; letter-spacing: -0.02em;
+      color: var(--ink); margin-bottom: 16px;
+    }
+    .doc-subtitle {
+      font-size: 17px; color: var(--muted); font-weight: 300;
+      line-height: 1.6; max-width: 560px;
+    }
+    .doc-meta {
+      display: flex; gap: 24px; flex-wrap: wrap;
+      margin-top: 24px; padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .doc-meta-item { font-size: 12px; color: var(--muted); }
+    .doc-meta-item strong { color: var(--ink); font-weight: 500; }
+
+    /* ── TOC ── */
+    .toc {
+      background: var(--purple-light);
+      border-radius: 12px; padding: 24px 28px; margin-bottom: 48px;
+    }
+    .toc-title {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--purple); margin-bottom: 14px;
+    }
+    .toc-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .toc-list li { display: flex; align-items: baseline; gap: 10px; }
+    .toc-num { font-size: 11px; color: var(--purple); opacity: 0.6; min-width: 18px; }
+    .toc-list a { font-size: 14px; color: var(--ink); text-decoration: none; transition: color 0.2s; }
+    .toc-list a:hover { color: var(--purple); }
+
+    /* ── PROSE ── */
+    .prose h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 26px; letter-spacing: -0.01em;
+      color: var(--ink); margin: 52px 0 16px;
+      padding-top: 52px; border-top: 1px solid var(--border);
+    }
+    .prose h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+    .prose h3 { font-size: 16px; font-weight: 500; color: var(--ink); margin: 32px 0 10px; }
+    .prose p { font-size: 16px; color: var(--ink); font-weight: 300; margin-bottom: 18px; }
+    .prose p strong { font-weight: 500; color: var(--ink); }
+    .prose ul { padding-left: 20px; margin-bottom: 20px; }
+    .prose li { font-size: 15px; font-weight: 300; color: var(--ink); margin-bottom: 8px; line-height: 1.7; }
+    .prose li strong { font-weight: 500; }
+
+    .prose blockquote {
+      border-left: 3px solid var(--purple);
+      margin: 28px 0; padding: 16px 20px;
+      background: var(--purple-light); border-radius: 0 8px 8px 0;
+    }
+    .prose blockquote p { font-size: 15px; color: var(--ink); margin: 0; font-weight: 400; font-style: italic; }
+
+    /* ── MILESTONE GRID ── */
+    .ms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 28px 0; }
+    .ms-card {
+      border-radius: 10px; padding: 18px 16px;
+      border: 1px solid var(--border);
+      background: var(--cream);
+    }
+    .ms-num {
+      font-size: 9px; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .ms-icon {
+      width: 30px; height: 30px; border-radius: 7px;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 10px;
+    }
+    .ms-icon svg { width: 15px; height: 15px; }
+    .ms-title { font-size: 12px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+    .ms-desc { font-size: 11px; color: var(--muted); line-height: 1.6; }
+    .ms-tag {
+      display: inline-block; margin-top: 8px;
+      font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 99px;
+    }
+    .ms-c-purple { background: var(--purple-light); }
+    .ms-c-teal   { background: var(--teal-light); }
+    .ms-c-amber  { background: var(--amber-light); }
+    .ms-c-coral  { background: var(--coral-light); }
+    .n-purple { color: var(--purple); }
+    .n-teal   { color: var(--teal); }
+    .n-amber  { color: var(--amber); }
+    .n-coral  { color: var(--coral); }
+    .tag-p { background: var(--purple-light); color: var(--purple); }
+    .tag-t { background: var(--teal-light);   color: var(--teal); }
+    .tag-a { background: var(--amber-light);  color: var(--amber); }
+    .tag-c { background: var(--coral-light);  color: var(--coral); }
+
+    /* ── OUTCOME BAR ── */
+    .outcome-bar {
+      background: var(--ink); border-radius: 12px;
+      padding: 20px 24px; margin: 0 0 28px;
+      display: flex; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .outcome-stat { text-align: center; }
+    .outcome-label { font-size: 10px; color: rgba(250,248,243,0.5); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+    .outcome-val { font-size: 15px; font-weight: 500; color: #FAF8F3; }
+
+    /* ── STACK DIAGRAM ── */
+    .stack-wrap { margin: 28px 0; }
+    .stack-row { display: flex; gap: 10px; margin-bottom: 10px; }
+    .stack-layer {
+      flex: 1; border-radius: 10px; padding: 14px 16px;
+      border: 1px solid var(--border); background: var(--cream);
+    }
+    .stack-role { font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+    .stack-name { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+    .stack-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+    .stack-badge {
+      display: inline-block; margin-top: 8px;
+      font-size: 10px; padding: 2px 8px; border-radius: 99px;
+    }
+    .stack-divider {
+      font-size: 10px; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted);
+      text-align: center; margin: 6px 0; padding: 6px 0;
+      border-top: 1px solid var(--border);
+    }
+    .stack-total {
+      background: var(--ink); border-radius: 10px;
+      padding: 16px 20px; text-align: center; margin-top: 10px;
+    }
+    .stack-total-num { font-size: 22px; font-weight: 500; color: #FAF8F3; margin-bottom: 4px; }
+    .stack-total-desc { font-size: 11px; color: rgba(250,248,243,0.5); line-height: 1.5; }
+
+    /* ── PRINCIPLE CARDS ── */
+    .principle-grid { display: flex; flex-direction: column; gap: 12px; margin: 24px 0; }
+    .principle-card {
+      border-radius: 10px; padding: 20px 22px;
+      border: 1px solid transparent;
+    }
+    .pc-purple { background: var(--purple-light); border-color: rgba(107,95,212,0.15); }
+    .pc-teal   { background: var(--teal-light);   border-color: rgba(26,155,120,0.15); }
+    .pc-amber  { background: var(--amber-light);  border-color: rgba(196,123,24,0.15); }
+    .pc-coral  { background: var(--coral-light);  border-color: rgba(201,90,58,0.15); }
+    .pc-label { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 5px; }
+    .pc-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+    .pc-desc  { font-size: 13px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+
+    /* ── TAKEAWAYS ── */
+    .takeaways { display: flex; flex-direction: column; gap: 10px; margin: 24px 0; }
+    .takeaway {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 18px 20px; border-radius: 10px;
+      border: 1px solid var(--border); background: var(--cream);
+    }
+    .takeaway-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px; color: var(--purple); opacity: 0.4;
+      line-height: 1; flex-shrink: 0; min-width: 24px;
+    }
+    .takeaway-text { font-size: 14px; font-weight: 300; color: var(--ink); line-height: 1.7; }
+    .takeaway-text strong { font-weight: 500; }
+
+    /* ── FOOTER ── */
+    .doc-footer {
+      margin-top: 64px; padding: 28px 0;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .doc-footer-left { font-size: 13px; color: var(--muted); font-weight: 300; }
+    .doc-footer-links { display: flex; gap: 16px; }
+    .doc-footer-links a { font-size: 13px; color: var(--purple); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .ms-grid { grid-template-columns: 1fr; }
+      .stack-row { flex-direction: column; }
+      .outcome-bar { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-back" href="https://mdevi25.github.io/">← Back to site</a>
+    <a class="nav-logo" href="https://mdevi25.github.io/">Madhu Devi</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="doc-tags">
+      <span class="doc-tag tag-purple">AI Collaboration</span>
+      <span class="doc-tag tag-teal">Personal Branding</span>
+      <span class="doc-tag tag-amber">Product Thinking</span>
+      <span class="doc-tag tag-coral">Zero-Cost Build</span>
+    </div>
+    <h1 class="doc-title">Personal Brand —<br>Building a Living Portfolio with AI</h1>
+    <p class="doc-subtitle">Designed and shipped a personal website from zero to live using Claude AI as the sole development partner — no frontend skills, no budget, no templates.</p>
+    <div class="doc-meta">
+      <div class="doc-meta-item"><strong>Role</strong><br>Product thinker, content owner,<br>decision maker</div>
+      <div class="doc-meta-item"><strong>Build method</strong><br>Conversation with Claude AI</div>
+      <div class="doc-meta-item"><strong>Total cost</strong><br>$0</div>
+      <div class="doc-meta-item"><strong>Status</strong><br>Live · mdevi25.github.io</div>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <ul class="toc-list">
+      <li><span class="toc-num">01</span><a href="#problem">The problem</a></li>
+      <li><span class="toc-num">02</span><a href="#principle">The guiding principle</a></li>
+      <li><span class="toc-num">03</span><a href="#milestones">How it was built — milestones</a></li>
+      <li><span class="toc-num">04</span><a href="#stack">The stack</a></li>
+      <li><span class="toc-num">05</span><a href="#decisions">Key product decisions</a></li>
+      <li><span class="toc-num">06</span><a href="#takeaways">Key takeaways</a></li>
+    </ul>
+  </div>
+
+  <!-- PROSE -->
+  <div class="prose">
+
+    <!-- PROBLEM -->
+    <h2 id="problem">The problem</h2>
+    <p>Most professionals have a LinkedIn profile but no owned space that reflects how they actually think. A static CV lists titles and dates. It doesn't show frameworks, perspective, intellectual range, or what someone is like to work with.</p>
+    <p>The alternative — hiring a developer, buying a template, learning a web framework — felt like solving the wrong problem. The real challenge was not technical. It was deciding what to say and being specific enough that it sounds like you, not a polished version of you.</p>
+    <blockquote><p>The site should give before it asks. Every visitor should walk away with something useful, even if they never reach out.</p></blockquote>
+
+    <!-- PRINCIPLE -->
+    <h2 id="principle">The guiding principle</h2>
+    <p>The site had to do three things well:</p>
+    <ul>
+      <li><strong>Reflect genuine thinking</strong> — not a LinkedIn summary, but actual frameworks, real opinions, and honest perspective on AI and product management.</li>
+      <li><strong>Give value on arrival</strong> — a calendar with 30 AI concept cards and a 12-step Beginner's Journey means every visitor learns something, whether or not they ever contact you.</li>
+      <li><strong>Stay maintainable</strong> — adding a new project, article, or travel destination should take one conversation, not an afternoon of editing code.</li>
+    </ul>
+
+    <!-- MILESTONES -->
+    <h2 id="milestones">How it was built — milestones</h2>
+    <p>Every milestone was a conversation. The role division was consistent throughout: direction, content, and decisions came from one side — execution came from the other.</p>
+
+    <div class="ms-grid">
+
+      <div class="ms-card">
+        <div class="ms-num n-purple">Milestone 01</div>
+        <div class="ms-icon ms-c-purple">
+          <svg viewBox="0 0 16 16" fill="none" stroke="#534AB7" stroke-width="1.5" stroke-linecap="round">
+            <rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M8 5v6"/>
+          </svg>
+        </div>
+        <div class="ms-title">Site live in 60 seconds</div>
+        <div class="ms-desc">Described goals, field, and creative vibe. Claude built a complete HTML file. Uploaded to GitHub Pages — live at mdevi25.github.io, zero cost, zero domain purchase.</div>
+        <span class="ms-tag tag-p">You: direction</span>
+      </div>
+
+      <div class="ms-card">
+        <div class="ms-num n-teal">Milestone 02</div>
+        <div class="ms-icon ms-c-teal">
+          <svg viewBox="0 0 16 16" fill="none" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round">
+            <path d="M2 4h12M2 8h8M2 12h10"/>
+          </svg>
+        </div>
+        <div class="ms-title">Real content integrated</div>
+        <div class="ms-desc">Travel photos uploaded by filename. Two Medium articles shared by URL — titles, subtitles, and read times fetched and built into cards. LinkedIn, GitHub, Medium contact links added.</div>
+        <span class="ms-tag tag-t">You: content</span>
+      </div>
+
+      <div class="ms-card">
+        <div class="ms-num n-amber">Milestone 03</div>
+        <div class="ms-icon ms-c-amber">
+          <svg viewBox="0 0 16 16" fill="none" stroke="#854F0B" stroke-width="1.5" stroke-linecap="round">
+            <path d="M4 13V6l4-4 4 4v7"/><path d="M10 13V9H6v4"/>
+          </svg>
+        </div>
+        <div class="ms-title">Two project case studies</div>
+        <div class="ms-desc">Uploaded raw .md documents. Claude produced full standalone pages — each with a table of contents, pillar cards, metric blocks, decision diagrams, and a back-to-site nav.</div>
+        <span class="ms-tag tag-a">You: documents</span>
+      </div>
+
+      <div class="ms-card">
+        <div class="ms-num n-purple">Milestone 04</div>
+        <div class="ms-icon ms-c-purple">
+          <svg viewBox="0 0 16 16" fill="none" stroke="#534AB7" stroke-width="1.5" stroke-linecap="round">
+            <circle cx="8" cy="6" r="3"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5"/>
+          </svg>
+        </div>
+        <div class="ms-title">Perspective widget</div>
+        <div class="ms-desc">Defined worldview, PM philosophy, and AI stance using a structured template. Claude built a widget where visitors ask questions and receive answers grounded in your actual frameworks — not a generic AI response.</div>
+        <span class="ms-tag tag-p">You: thinking</span>
+      </div>
+
+      <div class="ms-card">
+        <div class="ms-num n-teal">Milestone 05</div>
+        <div class="ms-icon ms-c-teal">
+          <svg viewBox="0 0 16 16" fill="none" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round">
+            <rect x="2" y="3" width="12" height="11" rx="2"/><path d="M2 7h12M6 3V2M10 3V2"/>
+          </svg>
+        </div>
+        <div class="ms-title">Calendar with AI insights</div>
+        <div class="ms-desc">Approved concept for seasonal animated birds and AI concept cards. Claude integrated the full calendar — 30 AI concept cards, a 12-step Beginner's Journey, and an expandable read panel.</div>
+        <span class="ms-tag tag-t">You: concept approved</span>
+      </div>
+
+      <div class="ms-card">
+        <div class="ms-num n-coral">Milestone 06</div>
+        <div class="ms-icon ms-c-coral">
+          <svg viewBox="0 0 16 16" fill="none" stroke="#993C1D" stroke-width="1.5" stroke-linecap="round">
+            <path d="M3 8l4 4 6-7"/>
+          </svg>
+        </div>
+        <div class="ms-title">Iterative polish</div>
+        <div class="ms-desc">Contact layout, visit counter, expand-to-read panel, text edits, colour tweaks — every refinement was a single sentence instruction. No code touched manually at any point.</div>
+        <span class="ms-tag tag-c">You: decisions</span>
+      </div>
+
+    </div>
+
+    <div class="outcome-bar">
+      <div class="outcome-stat"><div class="outcome-label">Total cost</div><div class="outcome-val">$0</div></div>
+      <div class="outcome-stat"><div class="outcome-label">Code written manually</div><div class="outcome-val">0 lines</div></div>
+      <div class="outcome-stat"><div class="outcome-label">Pages live</div><div class="outcome-val">4 pages</div></div>
+      <div class="outcome-stat"><div class="outcome-label">Build method</div><div class="outcome-val">Conversation</div></div>
+      <div class="outcome-stat"><div class="outcome-label">Hosting</div><div class="outcome-val">GitHub Pages</div></div>
+    </div>
+
+    <!-- STACK -->
+    <h2 id="stack">The stack</h2>
+    <p>The entire build runs on free infrastructure. No APIs, no backend, no recurring costs. The site is entirely static HTML served by GitHub Pages.</p>
+
+    <div class="stack-wrap">
+      <div class="stack-divider">You — product brain</div>
+      <div class="stack-row">
+        <div class="stack-layer" style="background: var(--purple-light); border-color: rgba(107,95,212,0.2);">
+          <div class="stack-role n-purple">Layer 1 — thinking</div>
+          <div class="stack-name">Madhu Devi</div>
+          <div class="stack-desc">Goals, content, decisions, approvals. Every direction came from here. Claude executed — you decided.</div>
+          <span class="stack-badge tag-purple">Product brain</span>
+        </div>
+      </div>
+
+      <div class="stack-divider">Claude AI — execution layer</div>
+      <div class="stack-row">
+        <div class="stack-layer" style="background: var(--teal-light); border-color: rgba(26,155,120,0.2); flex: 2;">
+          <div class="stack-role n-teal">Layer 2 — AI partner</div>
+          <div class="stack-name">Claude (Anthropic)</div>
+          <div class="stack-desc">HTML, CSS, JavaScript, page design, content formatting, and integration logic — all generated through conversation. Also powers the live Perspective widget on the homepage.</div>
+          <span class="stack-badge tag-teal">claude-sonnet-4</span>
+        </div>
+        <div class="stack-layer" style="background: var(--amber-light); border-color: rgba(196,123,24,0.15);">
+          <div class="stack-role n-amber">Layer 3 — interface</div>
+          <div class="stack-name">Claude.ai</div>
+          <div class="stack-desc">The conversation interface. No IDE, no terminal, no code editor used at any point.</div>
+          <span class="stack-badge tag-amber">chat interface</span>
+        </div>
+      </div>
+
+      <div class="stack-divider">Infrastructure — free tier</div>
+      <div class="stack-row">
+        <div class="stack-layer">
+          <div class="stack-role" style="color: var(--muted);">Layer 4 — hosting</div>
+          <div class="stack-name">GitHub Pages</div>
+          <div class="stack-desc">Free static hosting. Live at mdevi25.github.io with automatic deployment on file upload.</div>
+          <span class="stack-badge" style="background: var(--purple-light); color: var(--purple);">$0 / month</span>
+        </div>
+        <div class="stack-layer">
+          <div class="stack-role" style="color: var(--muted);">Layer 5 — source</div>
+          <div class="stack-name">GitHub repo</div>
+          <div class="stack-desc">4 HTML files + 1 images folder. No build process, no dependencies, no framework.</div>
+          <span class="stack-badge" style="background: var(--teal-light); color: var(--teal);">4 files</span>
+        </div>
+        <div class="stack-layer">
+          <div class="stack-role" style="color: var(--muted);">Layer 6 — domain</div>
+          <div class="stack-name">GitHub subdomain</div>
+          <div class="stack-desc">mdevi25.github.io — free, no domain purchase, no DNS configuration needed.</div>
+          <span class="stack-badge" style="background: var(--amber-light); color: var(--amber);">no cost</span>
+        </div>
+      </div>
+
+      <div class="stack-total">
+        <div class="stack-total-num">$0 recurring</div>
+        <div class="stack-total-desc">No subscriptions. No hosting fees. No domain purchase. Built and maintained entirely through conversation.</div>
+      </div>
+    </div>
+
+    <!-- DECISIONS -->
+    <h2 id="decisions">Key product decisions</h2>
+
+    <div class="principle-grid">
+      <div class="principle-card pc-purple">
+        <div class="pc-label n-purple">Decision 1</div>
+        <div class="pc-title">GitHub Pages over Webflow, Framer, or Squarespace</div>
+        <div class="pc-desc">No domain purchase, no subscription, no vendor lock-in. GitHub Pages gives a permanent free URL and keeps all files in your control. The constraint of a single HTML file turned out to be a feature — simplicity forces clarity.</div>
+      </div>
+      <div class="principle-card pc-teal">
+        <div class="pc-label n-teal">Decision 2</div>
+        <div class="pc-title">Conversation over prompts</div>
+        <div class="pc-desc">Every change was an iterative conversation, not a one-shot prompt. This is the key insight: AI collaboration works best when you treat it like working with a capable colleague — context, feedback, and refinement over time.</div>
+      </div>
+      <div class="principle-card pc-amber">
+        <div class="pc-label n-amber">Decision 3</div>
+        <div class="pc-title">A hidden gem over a contact form</div>
+        <div class="pc-desc">The calendar with 30 AI concept cards and a 12-step Beginner's Journey was a deliberate product decision — give visitors something useful on arrival. A site that teaches earns more trust than a site that only asks.</div>
+      </div>
+      <div class="principle-card pc-coral">
+        <div class="pc-label n-coral">Decision 4</div>
+        <div class="pc-title">Perspective widget over a generic chatbot</div>
+        <div class="pc-desc">Rather than a generic AI assistant, the widget is grounded in actual frameworks, real writing, and defined opinions. Visitors get a genuine point of view — not a search engine or a placeholder.</div>
+      </div>
+    </div>
+
+    <!-- TAKEAWAYS -->
+    <h2 id="takeaways">Key takeaways</h2>
+
+    <div class="takeaways">
+      <div class="takeaway">
+        <div class="takeaway-num">1</div>
+        <div class="takeaway-text"><strong>The hardest part is content, not code.</strong> Deciding what to say — and being specific enough that it sounds like you — is where the real work is. AI handles the execution. The thinking is yours.</div>
+      </div>
+      <div class="takeaway">
+        <div class="takeaway-num">2</div>
+        <div class="takeaway-text"><strong>AI collaboration is a product skill.</strong> Knowing what to ask for, when to push back, when to approve, and when to redirect — that is product management applied to your own build. The output quality mirrors the quality of your direction.</div>
+      </div>
+      <div class="takeaway">
+        <div class="takeaway-num">3</div>
+        <div class="takeaway-text"><strong>Specificity is everything.</strong> Vague inputs produce generic outputs. The moments where the site feels most like me are the moments where I gave Claude the most specific brief — actual frameworks, real opinions, exact wording preferences.</div>
+      </div>
+      <div class="takeaway">
+        <div class="takeaway-num">4</div>
+        <div class="takeaway-text"><strong>A living portfolio beats a static CV.</strong> The site continues to grow — new projects, new articles, new travel destinations — each added in a single conversation. This is the right model for a professional in a fast-moving field.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    <div class="doc-footer-left">Madhu Devi · Personal Brand · Built with Claude AI</div>
+    <div class="doc-footer-links">
+      <a href="https://www.linkedin.com/in/madhudevi/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/mdevi25" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://mdevi25.github.io/">Back to site</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
