@@ -774,27 +774,6 @@
 <div class="visit-ticker" id="visitTicker"></div>
 
 <script>
-(function(){
-  var key = 'mdevi_visits';
-  var count = parseInt(localStorage.getItem(key) || '0', 10) + 1;
-  localStorage.setItem(key, count);
-  var el = document.getElementById('visitTicker');
-  if (el) el.innerHTML = 'Page visit count: <span>' + count.toLocaleString() + '</span>';
-})();
-</script>
-
-<script>
-(function(){
-  var key = 'mdevi_visits';
-  var count = parseInt(localStorage.getItem(key) || '0', 10) + 1;
-  localStorage.setItem(key, count);
-  var el = document.getElementById('visitTicker');
-  if (el) el.innerHTML = 'Page visit count: <span>' + count.toLocaleString() + '</span>';
-})();
-</script>
-
-
-<script>
 
 
 /* ── VISIT COUNTER ── */
@@ -803,7 +782,7 @@
   var count = parseInt(localStorage.getItem(key) || '0', 10) + 1;
   localStorage.setItem(key, count);
   var el = document.getElementById('visitTicker');
-  if (el) el.innerHTML = 'You are visitor <span>#' + count.toLocaleString() + '</span> on this device';
+  if (el) el.innerHTML = 'Page visit count: <span>' + count.toLocaleString() + '</span>';
 })();
 
 /* ── CALENDAR WITH AI INSIGHTS ── */
