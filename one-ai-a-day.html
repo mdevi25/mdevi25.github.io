@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>One AI Insight a Day — Madhu Devi</title>
+<meta name="description" content="An interactive AI learning calendar. 120 concepts across four thematic parts, with a monthly Beginner's Journey step on every 1st." />
+
+<style>
+  :root {
+    --cream: #FAF8F3;
+    --ink: #1A1714;
+    --muted: #5F5A53;
+    --accent: #6B5FD4;
+    --teal: #1A9B78;
+    --line: #E8E3D9;
+    --panel: #F4EFE2;
+    --card: #FFFFFF;
+    --subtle: #8A8478;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+  a:hover { color: var(--accent); }
+
+  /* ============ NAV ============ */
+  .nav {
+    border-bottom: 1px solid var(--line);
+    background: var(--cream);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .nav-inner {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+  }
+  .nav-back {
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .nav-back:hover { color: var(--ink); }
+  .nav-brand {
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+
+  /* ============ WRAP ============ */
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 24px 88px;
+  }
+
+  /* ============ HERO ============ */
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .tag {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    background: var(--panel);
+    padding: 5px 11px;
+    border-radius: 999px;
+  }
+  .hero-status {
+    font-size: 13px;
+    color: var(--teal);
+    font-weight: 500;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-status::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(30px, 4.2vw, 42px);
+    line-height: 1.15;
+    margin: 0 0 18px;
+    letter-spacing: -0.015em;
+  }
+  .hero-lede {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink);
+    margin: 0 0 8px;
+    max-width: 660px;
+  }
+  .hero-sub {
+    font-size: 15px;
+    color: var(--accent);
+    font-weight: 500;
+    margin: 0 0 36px;
+  }
+
+  /* ============ META ============ */
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    padding: 22px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 48px;
+  }
+  .meta-item { font-size: 14px; }
+  .meta-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .meta-value { color: var(--ink); line-height: 1.45; }
+  .meta-value a { color: var(--ink); }
+
+  /* ============ CONTENTS ============ */
+  .toc {
+    background: var(--panel);
+    border-radius: 10px;
+    padding: 20px 26px;
+    margin-bottom: 48px;
+  }
+  .toc-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    columns: 2;
+    column-gap: 32px;
+  }
+  .toc li {
+    font-size: 14px;
+    padding: 4px 0;
+    break-inside: avoid;
+  }
+  .toc a {
+    text-decoration: none;
+    color: var(--ink);
+    display: flex;
+    gap: 12px;
+  }
+  .toc a:hover { color: var(--accent); }
+  .toc-num {
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+
+  /* ============ SECTIONS ============ */
+  section { margin-bottom: 48px; scroll-margin-top: 80px; }
+
+  h2 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.25;
+    margin: 0 0 14px;
+    letter-spacing: -0.01em;
+  }
+  h3 {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.35;
+    margin: 22px 0 8px;
+    color: var(--ink);
+  }
+  p { margin: 0 0 14px; color: var(--ink); }
+  p:last-child { margin-bottom: 0; }
+
+  ul { margin: 0 0 14px; padding-left: 22px; }
+  ul li { margin-bottom: 6px; }
+  ul li strong { font-weight: 600; }
+
+  code {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.9em;
+    background: var(--panel);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  blockquote {
+    margin: 18px 0;
+    padding: 14px 22px;
+    border-left: 3px solid var(--accent);
+    background: #F4F2FC;
+    border-radius: 0 8px 8px 0;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  blockquote p { margin: 0; }
+
+  /* ============ DECISION GRID ============ */
+  .decision-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin: 10px 0 8px;
+  }
+  .decision {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .decision-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .decision-title {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+  .decision-body {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ============ PARTS TABLE ============ */
+  .parts {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 4px;
+    font-size: 14px;
+  }
+  .parts th, .parts td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+  }
+  .parts th {
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .parts td strong { font-weight: 600; }
+
+  /* ============ TAKEAWAYS ============ */
+  .takeaways { margin-top: 4px; }
+  .takeaway {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    align-items: start;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+  }
+  .takeaway:last-child { border-bottom: 1px solid var(--line); }
+  .takeaway-num {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    padding-top: 2px;
+  }
+  .takeaway-body p { margin: 0; font-size: 14.5px; line-height: 1.55; }
+  .takeaway-body strong { font-weight: 600; }
+
+  /* ============ LIVE LINK BUTTON ============ */
+  .live-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 22px;
+    background: var(--ink);
+    color: var(--cream);
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background 0.15s ease;
+  }
+  .live-link:hover { background: var(--accent); color: #fff; }
+  .live-link-wrap { margin-top: 12px; }
+
+  /* ============ FOOTER ============ */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 36px 24px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  footer a { color: var(--muted); margin: 0 10px; text-decoration: none; }
+  footer a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+  .footer-lead { color: var(--ink); margin-bottom: 8px; font-weight: 500; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 720px) {
+    .wrap { padding: 36px 20px 64px; }
+    .hero-lede { font-size: 17px; }
+    h2 { font-size: 21px; }
+    .meta { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .toc ol { columns: 1; }
+    .decision-grid { grid-template-columns: 1fr; }
+    .nav-inner { padding: 14px 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-back" href="https://mdevi25.github.io/">← Back to site</a>
+    <a class="nav-brand" href="https://mdevi25.github.io/">Madhu Devi</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <div class="hero-tags">
+    <span class="tag">AI Literacy</span>
+    <span class="tag">Content Design</span>
+    <span class="tag">Accessibility</span>
+    <span class="tag">Claude Collaboration</span>
+  </div>
+
+  <div class="hero-status">Live</div>
+
+  <h1>One AI Insight a Day</h1>
+
+  <p class="hero-lede">
+    An interactive AI learning calendar. Click any date to open one idea — 120 concept cards plus 12 monthly milestones, arranged so the structure itself teaches.
+  </p>
+  <p class="hero-sub">One date, one insight, every day of the year.</p>
+
+  <div class="meta">
+    <div class="meta-item">
+      <span class="meta-label">Role</span>
+      <span class="meta-value">Product framing, curation, design</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Status</span>
+      <span class="meta-value">Live microsite</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">AI Partner</span>
+      <span class="meta-value">Claude Project</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Visit</span>
+      <span class="meta-value"><a href="https://mdevi25.github.io/one-ai-a-day/">one-ai-a-day ↗</a></span>
+    </div>
+  </div>
+
+  <nav class="toc" aria-label="Contents">
+    <div class="toc-title">Contents</div>
+    <ol>
+      <li><a href="#framing"><span class="toc-num">01</span>The framing</a></li>
+      <li><a href="#interaction"><span class="toc-num">02</span>How it works</a></li>
+      <li><a href="#parts"><span class="toc-num">03</span>Thematic parts</a></li>
+      <li><a href="#decisions"><span class="toc-num">04</span>Design decisions</a></li>
+      <li><a href="#collaboration"><span class="toc-num">05</span>Working with Claude Project</a></li>
+      <li><a href="#takeaways"><span class="toc-num">06</span>Takeaways</a></li>
+    </ol>
+  </nav>
+
+  <section id="framing">
+    <h2>The framing</h2>
+    <p>
+      Most AI learning asks too much up front — long articles, full courses, weekly newsletters. I wanted the opposite: one idea a day, five seconds of attention, no obligation to return.
+    </p>
+    <blockquote><p>Can AI literacy feel like checking a calendar, not taking a course?</p></blockquote>
+    <p>
+      The product is a calendar the reader explores. Click any date to open one concept. Use the arrows to browse months. Share a specific date with anyone. That is the whole interaction model.
+    </p>
+  </section>
+
+  <section id="interaction">
+    <h2>How it works</h2>
+
+    <h3>The reader controls the pace</h3>
+    <p>
+      Nothing is pushed. No email, no notification, no streak counter. The calendar sits still until the reader taps a date — then one idea opens in place. Close it, open another, or leave. The lack of nagging is the point.
+    </p>
+
+    <h3>Two tracks, one calendar</h3>
+    <p>
+      The 1st of every month is always a <strong>Beginner's Journey</strong> step — twelve foundational milestones across the year. Every other date is a deeper <strong>concept card</strong>. Same calendar, two reading paths, no toggle needed.
+    </p>
+
+    <h3>Deep links as a feature, not an afterthought</h3>
+    <p>
+      Every date has its own URL. <code>?day=14</code> opens the 14th of whatever month is showing; <code>?day=1&amp;month=6</code> opens June's milestone. Sharing a single idea takes one click.
+    </p>
+  </section>
+
+  <section id="parts">
+    <h2>Thematic parts</h2>
+    <p>
+      The year is divided into four thematic parts. Each contains 30 concept cards on a consistent schema — headline idea, short explanation, custom visual, and a "what it isn't" clarification where it helps.
+    </p>
+
+    <table class="parts">
+      <thead>
+        <tr>
+          <th>Part</th>
+          <th>Months</th>
+          <th>Theme</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Part 1</strong></td><td>Jan – Mar</td><td>Fundamentals</td></tr>
+        <tr><td><strong>Part 2</strong></td><td>Apr – Jun</td><td>AI for product managers</td></tr>
+        <tr><td><strong>Part 3</strong></td><td>Jul – Sep</td><td>AI ethics</td></tr>
+        <tr><td><strong>Part 4</strong></td><td>Oct – Dec</td><td>Tools in practice</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      The rotation means the same calendar serves a beginner in January and a practitioner in October. The surface stays stable; the depth shifts.
+    </p>
+  </section>
+
+  <section id="decisions">
+    <h2>Design decisions</h2>
+    <p>
+      Two categories of decisions mattered most — what to build into the experience, and what to leave out.
+    </p>
+
+    <div class="decision-grid">
+      <div class="decision">
+        <div class="decision-label">Built in</div>
+        <div class="decision-title">Accessibility as default</div>
+        <div class="decision-body">WCAG AA contrast at actual rendered sizes. Respects <code>prefers-reduced-motion</code>. Keyboard navigable.</div>
+      </div>
+      <div class="decision">
+        <div class="decision-label">Built in</div>
+        <div class="decision-title">Seasonal context</div>
+        <div class="decision-body">Each month has its own hand-composed SVG scene above the grid, giving immediate orientation in the year.</div>
+      </div>
+      <div class="decision">
+        <div class="decision-label">Left out</div>
+        <div class="decision-title">No accounts or streaks</div>
+        <div class="decision-body">No login, no email capture, no "days in a row" pressure. Learning should not carry guilt.</div>
+      </div>
+      <div class="decision">
+        <div class="decision-label">Left out</div>
+        <div class="decision-title">No reactions or comments</div>
+        <div class="decision-body">Storage complexity for signal that was not needed. The share button does the social work.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="collaboration">
+    <h2>Working with Claude Project</h2>
+    <p>
+      The site was built iteratively in a Claude Project across many sessions. I defined the audience, chose the structure, wrote and reviewed every concept, and made every trade-off call. Claude turned those decisions into working HTML, CSS, and SVG.
+    </p>
+
+    <h3>What worked</h3>
+    <ul>
+      <li><strong>Rendered options before code.</strong> Asking for 2–3 visual previews up front made iterations cheaper than "build then revise."</li>
+      <li><strong>Honest trade-offs on demand.</strong> When I asked what the downsides of a choice were, I got them.</li>
+      <li><strong>Content stays mine.</strong> Every concept was reviewed for accuracy; a few had source errors that I fixed by hand.</li>
+    </ul>
+
+    <blockquote><p>AI collaboration is directed work, not delegated work. The output tracks the specificity of the direction.</p></blockquote>
+  </section>
+
+  <section id="takeaways">
+    <h2>Takeaways</h2>
+    <div class="takeaways">
+      <div class="takeaway">
+        <div class="takeaway-num">1</div>
+        <div class="takeaway-body">
+          <p><strong>Structure teaches.</strong> The Day 1 / Days 2–31 split and the four thematic parts do more onboarding than any tutorial would.</p>
+        </div>
+      </div>
+      <div class="takeaway">
+        <div class="takeaway-num">2</div>
+        <div class="takeaway-body">
+          <p><strong>Subtraction is a PM skill.</strong> Every feature not built was a decision. No login, no streaks, no comments — each removal made the product sharper.</p>
+        </div>
+      </div>
+      <div class="takeaway">
+        <div class="takeaway-num">3</div>
+        <div class="takeaway-body">
+          <p><strong>Interactivity does not need a backend.</strong> A thoughtful front-end can feel like an app. The calendar, deep links, and share flow all run client-side with no server.</p>
+        </div>
+      </div>
+      <div class="takeaway">
+        <div class="takeaway-num">4</div>
+        <div class="takeaway-body">
+          <p><strong>Accessibility compounds.</strong> Designing for WCAG AA and reduced motion from day one costs less than retrofitting, and quietly improves the experience for everyone.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="live-link-wrap">
+      <a class="live-link" href="https://mdevi25.github.io/one-ai-a-day/">Visit the live calendar →</a>
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-lead">Madhu Devi · One AI Insight a Day</div>
+  <a href="https://www.linkedin.com/in/madhudevi/">LinkedIn</a>
+  <a href="https://github.com/mdevi25">GitHub</a>
+  <a href="https://mdevi25.github.io/">Back to site</a>
+</footer>
+
+</body>
+</html>
