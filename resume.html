@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume — Madhu Devi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #FAF8F3;
+      --ink: #1A1714;
+      --muted: #7A746B;
+      --border: rgba(26,23,20,0.10);
+      --purple: #6B5FD4;
+      --purple-light: #EAE8FB;
+      --teal: #1A9B78;
+      --teal-light: #E0F5EE;
+      --amber: #C47B18;
+      --amber-light: #FDF0D5;
+      --coral: #C95A3A;
+      --coral-light: #FAEAE4;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: 0.5;
+    }
+
+    .wrap { max-width: 780px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      padding: 18px 0;
+      backdrop-filter: blur(12px);
+      background: rgba(250,248,243,0.85);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 780px; margin: 0 auto; padding: 0 28px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px; color: var(--ink); text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: 13px; font-weight: 400; color: var(--muted);
+      text-decoration: none; letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a.active { color: var(--purple); font-weight: 500; }
+
+    /* ── PDF BANNER ── */
+    .pdf-banner {
+      background: var(--ink);
+      color: var(--cream);
+      position: relative; z-index: 1;
+      padding: 14px 0;
+    }
+    .pdf-banner-inner {
+      max-width: 780px; margin: 0 auto; padding: 0 28px;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .pdf-banner-text {
+      font-size: 13px; color: rgba(255,255,255,0.75);
+      font-weight: 300;
+    }
+    .pdf-banner-text strong { color: #fff; font-weight: 500; }
+    .pdf-download-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 20px;
+      background: var(--purple);
+      color: #fff;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 13px; font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .pdf-download-btn:hover { background: #5a50c0; transform: translateY(-1px); }
+    .pdf-download-btn svg { width: 14px; height: 14px; }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 56px 0 40px;
+      opacity: 0; animation: fadeUp 0.7s 0.1s forwards;
+    }
+    .page-eyebrow {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--purple);
+      margin-bottom: 14px;
+    }
+    .page-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(36px, 6vw, 52px);
+      line-height: 1.05; letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+    .page-title em { font-style: italic; color: var(--purple); }
+    .page-divider {
+      width: 48px; height: 2px;
+      background: linear-gradient(90deg, var(--purple), var(--teal));
+      margin: 22px 0 18px;
+      border-radius: 2px;
+    }
+    .page-subtitle {
+      font-size: 15px; color: var(--muted); font-weight: 300;
+      max-width: 520px; line-height: 1.7;
+    }
+
+    /* ── SECTION BASE ── */
+    .resume-section { padding: 40px 0; border-top: 1px solid var(--border); }
+    .section-label {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    /* ── SUMMARY ── */
+    .summary-text {
+      font-size: 15px; line-height: 1.85; color: var(--ink);
+      font-weight: 300; max-width: 680px;
+    }
+    .summary-text strong { font-weight: 500; }
+
+    /* ── COMPETENCY PILLS ── */
+    .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill {
+      font-size: 12px; padding: 5px 12px;
+      border-radius: 99px; font-weight: 400;
+      border: 1px solid transparent;
+    }
+    .pill-purple { background: var(--purple-light); color: var(--purple); border-color: rgba(107,95,212,0.2); }
+    .pill-teal   { background: var(--teal-light);   color: var(--teal);   border-color: rgba(26,155,120,0.2); }
+    .pill-amber  { background: var(--amber-light);  color: var(--amber);  border-color: rgba(196,123,24,0.2); }
+    .pill-neutral { background: rgba(26,23,20,0.05); color: var(--muted); border-color: var(--border); }
+
+    /* ── TECH PROFICIENCIES ── */
+    .tech-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tech-tag {
+      font-size: 12px; padding: 4px 11px;
+      border-radius: 5px; font-weight: 400;
+      background: rgba(26,23,20,0.05);
+      color: var(--ink);
+      border: 1px solid var(--border);
+    }
+
+    /* ── CERT ── */
+    .cert-card {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 14px 20px;
+      border-radius: 10px;
+      border: 1px solid rgba(26,155,120,0.2);
+      background: var(--teal-light);
+    }
+    .cert-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+    .cert-name { font-size: 13px; font-weight: 500; color: var(--ink); }
+    .cert-issuer { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+    /* ── EXPERIENCE ── */
+    .exp-list { display: flex; flex-direction: column; gap: 36px; }
+    .exp-item {}
+    .exp-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 16px; flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+    .exp-company {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px; color: var(--ink); letter-spacing: -0.01em;
+    }
+    .exp-dates {
+      font-size: 12px; color: var(--muted); font-weight: 400;
+      white-space: nowrap; padding-top: 4px;
+    }
+    .exp-role {
+      font-size: 13px; font-weight: 500; color: var(--purple);
+      margin-bottom: 14px; letter-spacing: 0.01em;
+    }
+    .exp-bullets { display: flex; flex-direction: column; gap: 10px; padding-left: 0; list-style: none; }
+    .exp-bullets li {
+      font-size: 14px; color: var(--ink); line-height: 1.75;
+      font-weight: 300;
+      padding-left: 18px;
+      position: relative;
+    }
+    .exp-bullets li::before {
+      content: '';
+      position: absolute; left: 0; top: 10px;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--purple); opacity: 0.5;
+    }
+    .exp-bullets li strong { font-weight: 500; color: var(--ink); }
+    .exp-divider {
+      height: 1px; background: var(--border);
+      margin-top: 36px;
+    }
+
+    /* ── NOTE CARD (restaurant role) ── */
+    .note-card {
+      padding: 20px 24px;
+      border-radius: 10px;
+      border: 1px dashed rgba(196,123,24,0.35);
+      background: var(--amber-light);
+      margin-bottom: 36px;
+    }
+    .note-card-label {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--amber);
+      margin-bottom: 6px;
+    }
+    .note-card-text {
+      font-size: 13px; color: var(--ink); font-weight: 300; line-height: 1.7;
+    }
+
+    /* ── EDUCATION ── */
+    .edu-card {
+      display: flex; align-items: flex-start; gap: 20px;
+      padding: 22px 24px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--cream);
+    }
+    .edu-dot-col { padding-top: 4px; }
+    .edu-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--purple); }
+    .edu-degree {
+      font-family: 'DM Serif Display', serif;
+      font-size: 17px; color: var(--ink); letter-spacing: -0.01em;
+      margin-bottom: 3px;
+    }
+    .edu-school { font-size: 13px; color: var(--muted); font-weight: 300; }
+
+    /* ── BACK LINK ── */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; color: var(--muted); text-decoration: none;
+      margin-bottom: 0;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--ink); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 28px 0; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 8px;
+    }
+    .footer-name { font-size: 12px; color: var(--muted); }
+    .footer-site { font-size: 12px; color: var(--muted); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .resume-section {
+      opacity: 0; animation: fadeUp 0.6s forwards;
+    }
+    .resume-section:nth-child(1) { animation-delay: 0.2s; }
+    .resume-section:nth-child(2) { animation-delay: 0.3s; }
+    .resume-section:nth-child(3) { animation-delay: 0.35s; }
+    .resume-section:nth-child(4) { animation-delay: 0.4s; }
+    .resume-section:nth-child(5) { animation-delay: 0.45s; }
+    .resume-section:nth-child(6) { animation-delay: 0.5s; }
+    .resume-section:nth-child(7) { animation-delay: 0.55s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .exp-header { flex-direction: column; gap: 2px; }
+      .pdf-banner-inner { flex-direction: column; gap: 10px; }
+      footer { flex-direction: column; align-items: flex-start; }
+      .edu-card { flex-direction: column; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="https://mdevi25.github.io/">Madhu Devi</a>
+    <ul class="nav-links">
+      <li><a href="https://mdevi25.github.io/">Home</a></li>
+      <li><a href="https://mdevi25.github.io/#about">About</a></li>
+      <li><a href="https://mdevi25.github.io/#projects">Projects</a></li>
+      <li><a href="https://mdevi25.github.io/#writing">Writing</a></li>
+      <li><a href="https://mdevi25.github.io/#travel">Travel</a></li>
+      <li><a href="#" class="active">Resume</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- PDF DOWNLOAD BANNER -->
+<div class="pdf-banner">
+  <div class="pdf-banner-inner">
+    <p class="pdf-banner-text"><strong>Download a copy</strong> — full resume as a PDF, ready to share.</p>
+    <a class="pdf-download-btn" href="resume.pdf" download>
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 1v9M5 7l3 3 3-3M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Download PDF
+    </a>
+  </div>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="wrap">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <a class="back-link" href="https://mdevi25.github.io/">← Back to site</a>
+    <div style="height:24px"></div>
+    <p class="page-eyebrow">AI Product Management &amp; Data Analytics</p>
+    <h1 class="page-title">Madhu<br><em>Devi</em></h1>
+    <div class="page-divider"></div>
+    <p class="page-subtitle">Mundelein, IL &nbsp;·&nbsp; devi52@gmail.com &nbsp;·&nbsp; <a href="https://www.linkedin.com/in/madhudevi/" style="color:var(--purple);text-decoration:none;">linkedin.com/in/madhudevi</a></p>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="resume-section">
+    <p class="section-label">Summary</p>
+    <p class="summary-text">
+      AI Product Owner and Product Manager with <strong>5+ years of direct product ownership</strong> and 15+ years overall delivering digital products across healthcare and regulated cross-industry environments. Proven track record owning <strong>consumer-facing digital products</strong> — including a member-facing AI chat and voice virtual assistant at Aetna — with full accountability for roadmap, prioritization, stakeholder alignment, and Agile execution. Experienced leading cross-functional teams of up to 20 people spanning data engineering, data science, application development, and data governance across complex matrixed organizations. Strong data-driven mindset with hands-on experience in analytics pipelines, performance dashboards, and customer journey insights. Leverages AI tools including Claude.ai and Microsoft Copilot to accelerate product workflows. Certified Google Cloud Generative AI Leader. Delivered 100% customer satisfaction through disciplined Agile delivery, clear acceptance criteria, and executive-level communication.
+    </p>
+  </div>
+
+  <!-- CORE COMPETENCIES -->
+  <div class="resume-section">
+    <p class="section-label">Core Competencies</p>
+    <div class="pills">
+      <span class="pill pill-purple">Product Ownership &amp; Management</span>
+      <span class="pill pill-purple">Consumer-Facing Digital Products</span>
+      <span class="pill pill-purple">Roadmap &amp; Prioritization</span>
+      <span class="pill pill-purple">Agile &amp; Lean Delivery</span>
+      <span class="pill pill-teal">Healthcare &amp; Regulated Environments</span>
+      <span class="pill pill-teal">Data Analytics &amp; Experimentation</span>
+      <span class="pill pill-teal">AI &amp; ML Product Management</span>
+      <span class="pill pill-amber">Cross-Functional Leadership</span>
+      <span class="pill pill-amber">Stakeholder Management</span>
+      <span class="pill pill-amber">Release Management</span>
+      <span class="pill pill-neutral">User Stories &amp; Acceptance Criteria</span>
+      <span class="pill pill-neutral">Responsible AI &amp; Governance</span>
+    </div>
+  </div>
+
+  <!-- TECHNICAL PROFICIENCIES -->
+  <div class="resume-section">
+    <p class="section-label">Technical Proficiencies</p>
+    <div class="tech-grid">
+      <span class="tech-tag">Aha!</span>
+      <span class="tech-tag">Jira</span>
+      <span class="tech-tag">Rally</span>
+      <span class="tech-tag">Confluence</span>
+      <span class="tech-tag">Smartsheet</span>
+      <span class="tech-tag">GitHub</span>
+      <span class="tech-tag">ServiceNow</span>
+      <span class="tech-tag">Power BI</span>
+      <span class="tech-tag">Tableau</span>
+      <span class="tech-tag">Spotfire</span>
+      <span class="tech-tag">Snowflake</span>
+      <span class="tech-tag">Python</span>
+      <span class="tech-tag">Azure</span>
+      <span class="tech-tag">GCP</span>
+      <span class="tech-tag">AWS</span>
+      <span class="tech-tag">Salesforce</span>
+      <span class="tech-tag">Microsoft 365</span>
+      <span class="tech-tag">Claude.ai</span>
+      <span class="tech-tag">Microsoft Copilot</span>
+      <span class="tech-tag">Miro</span>
+      <span class="tech-tag">Lucid</span>
+    </div>
+  </div>
+
+  <!-- CERTIFICATION -->
+  <div class="resume-section">
+    <p class="section-label">Certification</p>
+    <div class="cert-card">
+      <div class="cert-dot"></div>
+      <div>
+        <div class="cert-name">Google Cloud Generative AI Leader</div>
+        <div class="cert-issuer">Google Cloud</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <div class="resume-section">
+    <p class="section-label">Experience</p>
+    <div class="exp-list">
+
+      <!-- Restaurant note -->
+      <div class="note-card">
+        <div class="note-card-label">Current · Part-Time</div>
+        <div class="note-card-text">
+          <strong>Restaurant Operations Associate — Honest Restaurant Franchise</strong> &nbsp;(May 2026–Present)<br>
+          Hands-on observation of order management, kitchen coordination, and throughput operations — building practical insight into workflow automation and AI-assisted restaurant operations.
+        </div>
+      </div>
+
+      <!-- Aetna -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-company">Aetna</div>
+          <div class="exp-dates">Oct 2025 – Dec 2025</div>
+        </div>
+        <div class="exp-role">Product Manager</div>
+        <ul class="exp-bullets">
+          <li>Owned product delivery for a <strong>consumer-facing AI chat and voice virtual assistant</strong> serving health insurance members, deflecting common inquiries and improving digital self-service efficiency. Applied VoC research using Miro and Lucid to produce customer journey maps and UX flows, translating member pain points into engineering design decisions in a regulated healthcare environment.</li>
+          <li>Managed end-to-end roadmap execution in <strong>Rally</strong>: decomposed program-level capabilities into Features and user stories, authored acceptance criteria with Given/When/Then structure, and maintained a groomed backlog that reduced sprint rework and improved PI predictability. Coordinated dependency mapping across engineering, QA, and business teams ahead of each PI planning cycle.</li>
+          <li>Collaborated with architects and engineering leads to assess <strong>future-state solution architecture</strong> for the AI assistant, evaluating integration touchpoints, API contracts, and data flows between member-facing front-end and back-end services. Translated technical constraints into prioritization decisions balancing delivery scope against platform readiness and compliance requirements.</li>
+          <li>Maintained project plan tracking milestones, dependencies, and risk register across engineering and business workstreams; produced structured status reporting for multiple stakeholder tiers including executive leadership.</li>
+        </ul>
+      </div>
+
+      <div class="exp-divider"></div>
+
+      <!-- Optum -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-company">Optum</div>
+          <div class="exp-dates">Mar 2022 – Aug 2025</div>
+        </div>
+        <div class="exp-role">Technical Product Manager → Senior Technical Product Manager</div>
+        <ul class="exp-bullets">
+          <li>Led strategy and execution of large-scale <strong>healthcare data migration initiatives</strong> spanning billing, payment, accounting, and finance datasets. Defined end-to-end dependency maps across data engineering, data governance, data quality, and platform teams — including data-ingestion sequencing, schema validation checkpoints, and lineage documentation to support regulatory compliance.</li>
+          <li>Designed a phased migration roadmap with milestone gates tied to <strong>data-ingestion protocol sign-off, encryption and access-control standards</strong>, gap analysis remediation, and downstream impact assessments across consumer-facing and internal reporting systems. Established go/no-go criteria for each phase to manage quality and compliance risk.</li>
+          <li>Served as technical liaison between business and engineering teams, translating dataset specifications and business rules into <strong>data mapping documents</strong> covering customer, product, and revenue-recognition field-level logic. Reduced UAT defect rates by resolving ambiguities in source-to-target mappings before development handoff. Drove trade-off decisions balancing migration speed, platform scalability, data quality, and regulatory risk across parallel workstreams.</li>
+          <li>Partnered with the Agile Release Train Engineer (RTE) to build a <strong>release-management framework</strong> defining environment promotion gates, rollback procedures, and data-security validation checkpoints required by healthcare regulatory standards (HIPAA-aligned). Managed risk register and escalation path for production deployments across Azure-hosted data environments.</li>
+        </ul>
+      </div>
+
+      <div class="exp-divider"></div>
+
+      <!-- Change Healthcare -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-company">Change Healthcare</div>
+          <div class="exp-dates">Oct 2016 – Mar 2022</div>
+        </div>
+        <div class="exp-role">Product Owner → Product Lead</div>
+        <ul class="exp-bullets">
+          <li>Translated complex data-migration requirements into structured <strong>Jira Epics, Features, and user stories</strong>, defining field-level acceptance criteria and data validation rules that gave engineering teams unambiguous build targets and reduced mid-sprint scope creep.</li>
+          <li>Led quarterly <strong>PI planning and PI readouts</strong> as Product Lead, including feature deliverable planning, capacity management, risk management, and internal/external dependency scoping across JIRA backlog user stories and anticipated sprint cycles to improve delivery forecasts.</li>
+          <li>Built a change-management process using <strong>ServiceNow</strong> for approval workflows and <strong>GitHub</strong> for version-controlled code promotion across dev, test, and production environments. Standardized the Atlassian toolchain (Jira, Confluence) and Aha! as the system of record for product strategy, backlog, and sprint execution — improving cross-team delivery transparency and audit traceability.</li>
+          <li>Defined requirements and acceptance criteria for <strong>cloud-based data pipelines</strong> ingesting data from Salesforce CRM and multiple operational source systems, delivering analytics-ready datasets to Tableau and Spotfire dashboards used by business stakeholders for operational and performance reporting.</li>
+        </ul>
+      </div>
+
+      <div class="exp-divider"></div>
+
+      <!-- Deloitte -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-company">Deloitte Consulting LLP</div>
+          <div class="exp-dates">Mar 2008 – Jun 2016</div>
+        </div>
+        <div class="exp-role">Consultant → Senior Consultant → Specialist Senior</div>
+        <ul class="exp-bullets">
+          <li>Led the <strong>master data management (MDM)</strong> component of a large-scale data-migration strategy, transitioning operational data from mainframe systems to Oracle ERP for a global convenience-store franchise. Designed and implemented data-conversion business rules and logic for one of the nation's top retail organizations to migrate operational datasets from mainframe systems to SAP ERP.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="resume-section">
+    <p class="section-label">Education</p>
+    <div class="edu-card">
+      <div class="edu-dot-col"><div class="edu-dot"></div></div>
+      <div>
+        <div class="edu-degree">Executive MBA — Business Analytics &amp; Entrepreneurship</div>
+        <div class="edu-school">University of Illinois Urbana-Champaign (UIUC)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-name">&copy; 2026 Madhu Devi</span>
+    <span class="footer-site">mdevi25.github.io</span>
+  </footer>
+
+</div><!-- end .wrap -->
+
+</body>
+</html>
