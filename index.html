@@ -11,7 +11,7 @@
     :root {
       --cream: #FAF8F3;
       --ink: #1A1714;
-      --muted: #7A746B;
+      --muted: #6E685F;
       --border: rgba(26,23,20,0.10);
       --purple: #6B5FD4;
       --purple-light: #EAE8FB;
@@ -71,6 +71,8 @@
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--ink); }
+    .linkedin-badge { transition: opacity 0.15s ease, transform 0.15s ease; }
+    .linkedin-badge:hover { opacity: 0.8; transform: translateY(-1px); }
 
     /* ── HERO ── */
     .hero { padding: 80px 0 64px; }
@@ -140,8 +142,15 @@
     .section-label {
       font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
       text-transform: uppercase; color: var(--muted);
-      margin-bottom: 36px;
+      margin-bottom: 36px; margin-top: 0;
     }
+
+    .skip-link {
+      position: absolute; left: -9999px; top: 0; z-index: 1000;
+      background: var(--ink); color: #fff; padding: 12px 20px;
+      border-radius: 0 0 6px 0; text-decoration: none; font-size: 14px;
+    }
+    .skip-link:focus { left: 0; }
 
     /* ── EXPERTISE ── */
     .expertise-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
@@ -168,7 +177,7 @@
 
     .exp-title {
       font-size: 13px; font-weight: 500; color: var(--ink);
-      margin-bottom: 6px;
+      margin-bottom: 6px; margin-top: 0;
     }
     .exp-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
 
@@ -275,7 +284,7 @@
     }
     .project-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
     .project-left { flex: 1; }
-    .project-name { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+    .project-name { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 5px; margin-top: 0; }
     .project-desc { font-size: 13px; color: var(--muted); line-height: 1.6; font-weight: 300; }
     .project-badges { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
     .badge { font-size: 11px; padding: 3px 9px; border-radius: 4px; font-weight: 400; }
@@ -510,6 +519,8 @@
 </head>
 <body>
 
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
@@ -522,10 +533,19 @@
       <li><a href="#travel">Travel</a></li>
       <li><a href="#contact">Contact</a></li>
       <li><a href="resume.html">Resume</a></li>
+      <li>
+        <a href="https://www.linkedin.com/in/madhudevi/" target="_blank" rel="noopener" aria-label="LinkedIn" class="linkedin-badge" style="display:flex;align-items:center;">
+          <svg width="24" height="24" viewBox="0 0 448 512" aria-hidden="true">
+            <path fill="#0A66C2" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3C448 46.5 433.6 32 416 32z"/>
+            <path fill="#FFFFFF" d="M135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/>
+          </svg>
+        </a>
+      </li>
     </ul>
   </div>
 </nav>
 
+<main id="main-content">
 <!-- HERO -->
 <div class="wrap">
   <div class="hero" id="about">
@@ -573,22 +593,22 @@
 <!-- EXPERTISE -->
 <div class="wrap">
   <section>
-    <p class="section-label">What I bring</p>
+    <h2 class="section-label">What I bring</h2>
     <div class="expertise-grid">
       <div class="exp-card c-purple">
         <div class="exp-dot"></div>
-        <div class="exp-title">Strategic Alignment</div>
-        <div class="exp-desc">Translating business goals into technology roadmaps, keeping every stakeholder moving in the same direction.</div>
+        <h3 class="exp-title">Product Mindset</h3>
+        <div class="exp-desc">Staying close to the product and its users — tracking deliverables at a granular level, and making sure what ships actually solves the right problem.</div>
       </div>
       <div class="exp-card c-teal">
         <div class="exp-dot"></div>
-        <div class="exp-title">Analytics &amp; AI</div>
-        <div class="exp-desc">Leveraging data pipelines, ML models, and AI tooling to surface insights that drive smarter product decisions.</div>
+        <h3 class="exp-title">Strategic Alliance</h3>
+        <div class="exp-desc">Translating business goals into technology roadmaps, keeping every stakeholder moving in the same direction.</div>
       </div>
       <div class="exp-card c-amber">
         <div class="exp-dot"></div>
-        <div class="exp-title">Growth Strategy</div>
-        <div class="exp-desc">Designing experiments, tracking the right metrics, and iterating relentlessly toward measurable business outcomes.</div>
+        <h3 class="exp-title">Analytics &amp; AI</h3>
+        <div class="exp-desc">Leveraging data pipelines, ML models, and AI tooling to surface insights that drive smarter product decisions.</div>
       </div>
     </div>
   </section>
@@ -597,10 +617,10 @@
 <!-- RESUME CARD -->
 <div class="wrap">
   <section>
-    <p class="section-label">Resume</p>
+    <h2 class="section-label">Resume</h2>
     <div class="project-card" style="background:var(--purple-light);border-color:rgba(107,95,212,0.2);">
       <div class="project-left">
-        <div class="project-name">Madhu Devi — Full Resume</div>
+        <h3 class="project-name">Madhu Devi — Full Resume</h3>
         <div class="project-desc">15+ years across healthcare, analytics, and AI product management. Aetna, Optum, Change Healthcare, Deloitte. View online or download as PDF.</div>
         <div class="project-badges">
           <span class="badge badge-purple">AI Product Management</span>
@@ -610,8 +630,8 @@
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0;">
-        <a class="project-link" href="resume.html">View &rarr;</a>
-        <a class="project-link" href="resume.pdf" download style="text-align:center;">&#8595; PDF</a>
+        <a class="project-link" href="resume.html" aria-label="View full resume">View &rarr;</a>
+        <a class="project-link" href="resume.pdf" download style="text-align:center;" aria-label="Download resume PDF">&#8595; PDF</a>
       </div>
     </div>
   </section>
@@ -621,12 +641,27 @@
 <!-- PROJECTS -->
 <div class="wrap">
   <section id="projects">
-    <p class="section-label">Projects</p>
+    <h2 class="section-label">Projects</h2>
     <div class="projects">
 
       <div class="project-card">
         <div class="project-left">
-          <div class="project-name">Fundiago — AI Powered Grant Intelligence Platform</div>
+          <h3 class="project-name">Product Productivity Management &mdash; An AI Governed Agentic Workflow</h3>
+          <div class="project-desc">AI integration in product design and architecture has become inevitable. It drives real gains in efficiency and productivity, but it also adds real complexity, and without careful governance, that complexity becomes risk no one sees coming until it's a problem: a customer complaint silently matched to the wrong internal requirement because two sentences happened to share a few generic words; an AI model quietly deprecated mid-build, still answering, just wrong, with no alarm going off. That's changing what's expected of product owners and managers: staying closer to the product, tracking deliverables at a far more granular level, and noticing the small things that used to be safe to skip. The same way a person double-checks their own work before sharing it, AI output needs that same habit built in as real governance, not blind trust in the first answer. This tour-booking operations prototype is an attempt to give that governance a concrete, working form: not a policy document, but a real product where every AI decision stays traceable, at zero extra manual cost to the team.</div>
+          <div class="project-badges">
+            <span class="badge badge-purple">AI Agent</span>
+            <span class="badge badge-teal">Agentic Governance</span>
+            <span class="badge badge-amber">n8n + LLM</span>
+            <span class="badge badge-blue">RTM Traceability</span>
+            <span class="badge badge-purple">Zero Cost</span>
+          </div>
+        </div>
+        <a class="project-link" href="https://mdevi25.github.io/ai-ppm-design-strategy/" target="_blank" rel="noopener" aria-label="Visit Product Productivity Management project">Visit &rarr;</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-left">
+          <h3 class="project-name">Fundaigo — AI Powered Grant Intelligence Platform</h3>
           <div class="project-desc">Built for a nonprofit that had run out of known funders and was stuck doing manual grant research by hand. A weekly AI search finds new opportunities, but the actual scoring is handled by deterministic logic, not the AI, so results stay explainable instead of feeling like a black box. Data ownership stays with the nonprofit itself, never a third party. Sign-in, match scoring, and a shared team tracker, all built end to end with Claude.ai and Claude Code as the build partners.</div>
           <div class="project-badges">
             <span class="badge badge-purple">AI Agent</span>
@@ -636,13 +671,13 @@
             <span class="badge badge-purple">Data Ownership</span>
           </div>
         </div>
-        <a class="project-link" href="https://mdevi25.github.io/fundaigo/index.html" target="_blank" rel="noopener">Visit &rarr;</a>
+        <a class="project-link" href="https://mdevi25.github.io/fundaigo/index.html" target="_blank" rel="noopener" aria-label="Visit Fundaigo project">Visit &rarr;</a>
       </div>
 	
       <div class="project-card">
         <div class="project-left">
-          <div class="project-name">HealWell</div>
-          <div class="project-desc">A wellness and recovery app for people who stand all day &mdash; restaurant workers, nurses, retail associates, and warehouse employees. A daily check-in captures shift data, a rule-based engine calculates a personalized recovery score, and an AI agent (Groq via Make.com) generates a warm shift story with emotional themes and one small recovery action. Supports English, Spanish, and Hindi. Built as a working demo with Lovable &mdash; full production version in progress with Next.js, Tailwind, and Make.com orchestration.</div>
+          <h3 class="project-name">HealWell</h3>
+          <div class="project-desc">A wellness and recovery app for people who stand all day &mdash; restaurant workers, nurses, retail associates, and warehouse employees. A daily check-in captures shift data, a rule-based engine calculates a personalized recovery score, and an AI agent (LLM via Make.com) generates a warm shift story with emotional themes and one small recovery action. Supports English, Spanish, and Hindi. Built as a working demo with Lovable &mdash; full production version in progress with Next.js, Tailwind, and Make.com orchestration.</div>
           <div class="project-badges">
             <span class="badge badge-purple">AI Agent</span>
             <span class="badge badge-teal">Wellness Tech</span>
@@ -651,12 +686,12 @@
             <span class="badge badge-purple">Make.com</span>
           </div>
         </div>
-        <a class="project-link" href="https://shiftwell-ai-coach.lovable.app/" target="_blank" rel="noopener">Visit &rarr;</a>
+        <a class="project-link" href="https://shiftwell-ai-coach.lovable.app/" target="_blank" rel="noopener" aria-label="Visit HealWell project">Visit &rarr;</a>
       </div>
 
 	  <div class="project-card">
         <div class="project-left">
-          <div class="project-name">Noor</div>
+          <h3 class="project-name">Noor</h3>
           <div class="project-desc">A peaceful daily space to feel, discover, and dream. Seven star angels, three curated cards — a daily gift, a place to dream about, and something to read or listen to. Built entirely with vanilla HTML, CSS, and JavaScript. No frameworks, no budget, no backend. Shipped with Claude as the sole build partner.</div>
           <div class="project-badges">
             <span class="badge badge-purple">UX Design</span>
@@ -665,12 +700,12 @@
             <span class="badge badge-blue">Claude Project</span>
           </div>
         </div>
-        <a class="project-link" href="https://mdevi25.github.io/noor/" target="_blank" rel="noopener">Visit &rarr;</a>
+        <a class="project-link" href="https://mdevi25.github.io/noor/" target="_blank" rel="noopener" aria-label="Visit Noor project">Visit &rarr;</a>
       </div>
 
 		<div class="project-card">
         <div class="project-left">
-          <div class="project-name">One AI Insight a Day</div>
+          <h3 class="project-name">One AI Insight a Day</h3>
           <div class="project-desc">An interactive AI learning calendar &mdash; 120 concept cards plus 12 monthly milestones, arranged so the structure itself teaches. Four thematic parts rotate through the year: fundamentals, PM craft, ethics, and tools. Designed, curated, and shipped with Claude Project as the build partner.</div>
           <div class="project-badges">
             <span class="badge badge-purple">AI Literacy</span>
@@ -679,12 +714,12 @@
             <span class="badge badge-blue">Claude Project</span>
           </div>
         </div>
-        <a class="project-link" href="https://mdevi25.github.io/one-ai-a-day/" target="_blank" rel="noopener">Read &rarr;</a>
+        <a class="project-link" href="https://mdevi25.github.io/one-ai-a-day/" target="_blank" rel="noopener" aria-label="Read One AI Insight a Day">Read &rarr;</a>
       </div>
 	  
 	   <div class="project-card">
         <div class="project-left">
-          <div class="project-name">Personal Brand</div>
+          <h3 class="project-name">Personal Brand</h3>
           <div class="project-desc">Designed and shipped a personal website from zero to live using Claude AI as the sole development partner — no frontend skills, no budget, no templates. A case study in AI collaboration and conversation-driven building.</div>
           <div class="project-badges">
             <span class="badge badge-purple">AI Collaboration</span>
@@ -693,12 +728,12 @@
             <span class="badge badge-blue">Zero Cost</span>
           </div>
         </div>
-        <a class="project-link" href="https://mdevi25.github.io/personal-brand.html" target="_blank" rel="noopener">Read &rarr;</a>
+        <a class="project-link" href="https://mdevi25.github.io/personal-brand.html" target="_blank" rel="noopener" aria-label="Read Personal Brand">Read &rarr;</a>
       </div>
 	  
       <div class="project-card">
         <div class="project-left">
-          <div class="project-name">AI Data Operations &mdash; A PM's Field Guide</div>
+          <h3 class="project-name">AI Data Operations &mdash; A PM's Field Guide</h3>
           <div class="project-desc">A practical knowledge base on managing annotation pipelines, RLHF workflows, and quality assurance for AI model development. Covers the full ADLC lifecycle, IRR arbitration, Red Teaming, and hands-on Labelbox practice.</div>
           <div class="project-badges">
             <span class="badge badge-purple">AI Product Management</span>
@@ -707,12 +742,12 @@
             <span class="badge badge-blue">Labelbox</span>
           </div>
         </div>
-        <a class="project-link" href="https://mdevi25.github.io/knowledge-base.html" target="_blank" rel="noopener">Read &rarr;</a>
+        <a class="project-link" href="https://mdevi25.github.io/knowledge-base.html" target="_blank" rel="noopener" aria-label="Read AI Data Operations, A PM's Field Guide">Read &rarr;</a>
       </div>
 
       <div class="project-card">
         <div class="project-left">
-          <div class="project-name">TM Evaluator Assistant</div>
+          <h3 class="project-name">TM Evaluator Assistant</h3>
           <div class="project-desc">An AI-powered speech evaluation companion for Toastmasters clubs. Built concept-to-deployment in a single sprint &mdash; real-time transcription, Pathways-aware evaluation criteria, and a privacy-first ephemeral architecture. Live experiment with a local club.</div>
           <div class="project-badges">
             <span class="badge badge-purple">AI Prototype</span>
@@ -721,7 +756,7 @@
             <span class="badge badge-blue">Claude API</span>
           </div>
         </div>
-        <a class="project-link" href="https://mdevi25.github.io/tm-evaluator.html" target="_blank" rel="noopener">Read &rarr;</a>
+        <a class="project-link" href="https://mdevi25.github.io/tm-evaluator.html" target="_blank" rel="noopener" aria-label="Read TM Evaluator Assistant">Read &rarr;</a>
       </div>
 
      </div>
@@ -731,7 +766,7 @@
 <!-- WRITING -->
 <div class="wrap">
   <section id="writing">
-    <p class="section-label">Writing</p>
+    <h2 class="section-label">Writing</h2>
    
 	<div class="writing-grid">
 	<a class="writing-card" href="https://www.linkedin.com/pulse/ai-reshaping-design-thinking-madhu-devi-dg7pc/" target="_blank" rel="noopener">
@@ -781,7 +816,7 @@
 <!-- TRAVEL -->
 <div class="wrap">
   <section id="travel">
-    <p class="section-label">Places I've loved</p>
+    <h2 class="section-label">Places I've loved</h2>
     <p class="travel-intro">When I'm not building products, I'm out exploring the world &mdash; camera in hand, chasing light, texture, and perspective.</p>
     <div class="travel-grid">
 
@@ -843,7 +878,7 @@
 <!-- CONTACT -->
 <div class="wrap">
   <section id="contact">
-    <p class="section-label">Contact</p>
+    <h2 class="section-label">Contact</h2>
     <div class="contact-box">
       <div class="contact-left">
         <h2 class="contact-heading">Let's build<br>something together.</h2>
@@ -879,6 +914,8 @@
     </div>
   </section>
 </div>
+
+</main>
 
 <!-- FOOTER -->
 <div class="wrap">
